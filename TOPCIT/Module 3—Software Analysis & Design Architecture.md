@@ -344,14 +344,14 @@ Each object is independent with its own state, but all share the same structure 
 
 #### Class vs Object Comparison
 
-|Aspect|Class|Object|
+|Aspect|Class| Object                  |
 |---|---|---|
-|Nature|Abstract blueprint/template|Concrete instance|
-|Existence|Defined once|Multiple can exist|
-|Memory|No memory allocated|Memory allocated|
-|State|No specific values|Has specific values|
-|Creation|Defined by programmer|Created during runtime|
-|Example|Student (concept)|Juan (specific student)|
+|Nature|Abstract blueprint/template| Concrete instance       |
+|Existence|Defined once| Multiple can exist      |
+|Memory|No memory allocated| Memory allocated        |
+|State|No specific values| Has specific values     |
+|Creation|Defined by programmer| Created during runtime  |
+|Example|Student (concept)| Juan (specific student) |
 
 #### Abstract Classes and Concrete Classes
 
@@ -4216,7 +4216,7 @@ This principle states that a class should focus on doing one thing well. When a 
 **Key Points:**
 
 - A class should have only one reason to change
-- Responsibility refers to a single axis of change
+- ==Responsibility refers to a single axis of change==
 - Separates concerns into distinct classes
 - Reduces coupling between different functionalities
 
@@ -8645,6 +8645,95 @@ This demonstrates multiple transitions with guards, actions, time events, and st
 
 ## Architectural Patterns
 
+**Layered/Tiered Patterns**
+- **Layered Architecture** - Organizes system into horizontal layers with defined responsibilities
+- **N-Tier Architecture** - Distributes layers across physical tiers (presentation, business logic, data)
+- **Three-Tier Architecture** - Specific implementation with presentation, application, and data tiers
+
+**Structural Patterns**
+- **Monolithic Architecture** - Single unified codebase and deployment unit
+- **Microservices Architecture** - Application as collection of loosely coupled, independently deployable services
+- **Service-Oriented Architecture (SOA)** - Services communicate via standardized protocols
+- **Modular Monolith** - Monolithic application with well-defined internal module boundaries
+
+**Communication Patterns**
+- **Event-Driven Architecture (EDA)** - Components communicate through events
+- **Message-Driven Architecture** - Asynchronous communication via message queues
+- **Publish-Subscribe (Pub/Sub)** - Publishers send messages to subscribers via channels
+- **Request-Response** - Synchronous communication pattern
+- **Message Bus** - Central infrastructure for message routing
+
+**Data Management Patterns**
+- **Database-Centric Architecture** - Database as central component
+- **CQRS (Command Query Responsibility Segregation)** - Separate models for reads and writes
+- **Event Sourcing** - Store state changes as sequence of events
+- **Data Lake Architecture** - Centralized repository for structured and unstructured data
+- **Data Mesh** - Decentralized data ownership by domain
+
+**Distributed System Patterns**
+- **Client-Server** - Clients request services from centralized servers
+- **Peer-to-Peer (P2P)** - Nodes act as both clients and servers
+- **Master-Slave (Primary-Replica)** - Master handles writes, slaves handle reads
+- **Multi-Master Replication** - Multiple nodes can accept writes
+- **Sharding** - Horizontal partitioning of data across multiple databases
+
+**Presentation Patterns**
+- **Model-View-Controller (MVC)** - Separates data, presentation, and control logic
+- **Model-View-Presenter (MVP)** - Presenter mediates between view and model
+- **Model-View-ViewModel (MVVM)** - ViewModel provides data binding for view
+- **Model-View-Intent (MVI)** - Unidirectional data flow with explicit intents
+
+**Cloud-Native Patterns**
+- **Serverless Architecture** - Functions as a Service (FaaS) execution model
+- **Backend for Frontend (BFF)** - Separate backends for different frontend types
+- **API Gateway** - Single entry point for multiple backend services
+- **Service Mesh** - Infrastructure layer for service-to-service communication
+- **Sidecar Pattern** - Helper service deployed alongside main application
+
+**Integration Patterns**
+- **Enterprise Service Bus (ESB)** - Centralized integration infrastructure
+- **Adapter Pattern (Architecture)** - Converts interfaces between systems
+- **Anti-Corruption Layer** - Isolates subsystems from external models
+- **Strangler Fig** - Gradually replace legacy system
+
+**Scalability Patterns**
+- **Load Balancer Pattern** - Distributes traffic across multiple servers
+- **Horizontal Scaling (Scale-Out)** - Add more machines
+- **Vertical Scaling (Scale-Up)** - Add more resources to existing machines
+- **Auto-Scaling** - Dynamic resource adjustment based on demand
+- **Bulkhead Pattern** - Isolate resources to prevent cascading failures
+- **Circuit Breaker** - Prevent cascading failures in distributed systems
+
+**Domain-Driven Patterns**
+- **Domain-Driven Design (DDD)** - Model software based on business domain
+- **Bounded Context** - Explicit boundaries around domain models
+- **Hexagonal Architecture (Ports and Adapters)** - Domain logic isolated from external concerns
+- **Clean Architecture** - Concentric layers with dependency rules
+- **Onion Architecture** - Similar to clean architecture with domain at center
+
+**Real-Time Patterns**
+- **Stream Processing Architecture** - Process continuous data streams
+- **Lambda Architecture** - Batch and stream processing layers
+- **Kappa Architecture** - Stream processing only (no batch layer)
+
+**Specialized Patterns**
+- **Space-Based Architecture** - Distributed shared memory
+- **Blackboard Pattern** - Multiple specialized subsystems contribute to solution
+- **Interpreter Pattern (Architecture)** - Interprets domain-specific language
+- **Pipe and Filter** - Chain of processing elements
+- **Broker Pattern** - Decouples components via message broker
+- **Repository Pattern (Architecture)** - Abstraction over data access
+- **Microfrontends** - Frontend composition from independent applications
+- **Jamstack** - JavaScript, APIs, and Markup architecture
+
+**Mobile-Specific Patterns**
+- **Offline-First Architecture** - Function without network connectivity
+- **Progressive Web App (PWA)** - Web apps with native-like capabilities
+
+**Security Patterns**
+- **Zero Trust Architecture** - Verify every access request
+- **Defense in Depth** - Multiple layers of security controls
+
 ### MVC (Model-View-Controller)
 
 #### Overview and Fundamental Concept
@@ -9494,17 +9583,23 @@ All layers exist within the same application boundary and are deployed together.
 - Client and server components bundled together
 - Example: Desktop applications
 
+A single-tier monolith represents the simplest architectural pattern where all components of an application exist and execute on one machine. The user interface, business logic, and data management are tightly integrated into a single executable or process. Desktop applications like traditional word processors or spreadsheet programs exemplify this approach, where opening the application launches everything needed to run it locally. The entire application exists as one deployable unit with no network communication required between components, though it may still connect to external resources like printers or cloud storage.
+
 **Two-Tier Monolith:**
 
 - Separate client and server
 - Server contains all business logic
 - Example: Traditional client-server applications
 
+The two-tier monolith introduces network separation by splitting the application into distinct client and server components. The client handles presentation and user interaction, while the server manages all business logic and data operations. Traditional client-server database applications follow this pattern, where desktop clients connect to a central database server that processes queries and enforces business rules. Both tiers remain substantial pieces of software, but they communicate across a network, typically using protocols like ODBC or proprietary connection methods. The server component, though separate, still functions as a monolithic unit containing all backend functionality.
+
 **Three-Tier Monolith:**
 
 - Presentation, business logic, and data layers separated
 - Still deployed as single unit
 - Most common monolithic pattern
+
+Three-tier monoliths add another layer of separation by distinguishing between presentation, business logic, and data access concerns. The presentation layer handles user interface rendering and interaction, the business logic layer processes application rules and workflows, and the data layer manages persistence and retrieval. Despite this logical separation, the application deploys as a cohesive unit, often as a single web application package. A typical web application with a frontend framework, application server code, and database access components all packaged together represents this architecture. This pattern became widespread because it provides organizational benefits for development teams while maintaining the operational simplicity of deploying a single application. The layers communicate through internal function calls rather than network boundaries, though the data tier may still involve network communication to a separate database server.
 
 ##### Advantages of Monolithic Architecture
 
@@ -10484,9 +10579,29 @@ Client-server architecture is a distributed computing model that separates syste
 
 **Thin Client Architecture** Thin clients provide minimal processing capability, primarily handling input/output and display rendering while servers perform all significant computation. This approach centralizes processing and simplifies client deployment and maintenance. Examples include web browsers accessing server-side applications and terminal services.
 
+**Examples:**
+- **Web-based email** (Gmail, Outlook Web): The browser displays content, but all email processing, storage, and spam filtering happen on the server
+- **Citrix or VMware Horizon**: The client device only displays a remote desktop stream while all applications run on the server
+- **Google Docs**: Document editing logic and storage are server-side; the browser primarily renders the interface
+- **Cloud gaming services** (GeForce NOW, Xbox Cloud Gaming): The game runs on remote servers, and the client only streams video and sends input commands
+
 **Thick Client Architecture** Thick clients perform substantial processing locally, including business logic, data validation, and complex computations. Servers primarily provide data storage and synchronization services. This approach reduces server load and network traffic but complicates client deployment and updates.
 
+**Examples:**
+- **Microsoft Outlook** (desktop): Processes emails, calendars, and contacts locally but syncs with Exchange Server for data storage
+- **Adobe Creative Cloud apps**: Run full applications locally but authenticate and sync files through cloud servers
+- **Mobile banking apps**: Perform UI rendering and some validation locally but connect to servers for transactions and account data
+- **Slack desktop app**: Handles message rendering and notifications locally while relying on servers for message storage and routing
+
 **Fat Client Architecture** Similar to thick clients but with even more functionality residing on the client side. Fat clients may include complete application logic and only use servers for data persistence and sharing. This architecture provides rich user experiences but creates deployment and version management challenges.
+
+**Examples:**
+- **Standalone video games** (single-player mode): Run completely on the local machine without server connectivity
+- **Microsoft Office** (standalone, non-365 versions): Full functionality without internet connection
+- **Video editing software** (Adobe Premiere, DaVinci Resolve): All processing happens locally on the user's hardware
+- **Calculator or notepad applications**: Operate entirely on the local device with no network requirements
+
+**Note:** The distinction between thick and fat clients can be blurry, and terminology varies. Some sources use "thick client" and "fat client" interchangeably to mean clients with substantial local processing capability.
 
 #### Communication Protocols and Technologies
 
@@ -10981,7 +11096,10 @@ This inverts dependencies, with outer layers depending on inner layers through i
 
 Certain concerns span multiple layers:
 
-**Logging**: Needed across all layers **Security**: Authentication, authorization at various points **Error handling**: Exception propagation and handling **Caching**: May occur at multiple layers **Monitoring**: Performance tracking across layers
+**Logging**: Needed across all layers **Security**: Authentication, authorization at various points 
+**Error handling**: Exception propagation and handling 
+**Caching**: May occur at multiple layers 
+**Monitoring**: Performance tracking across layers
 
 **Solutions:**
 
@@ -11058,7 +11176,9 @@ Implements use cases and coordinates operations across multiple domain objects.
 
 Often implemented within or alongside layered architecture:
 
-**Model**: Business logic layer **View**: Presentation layer (output) **Controller**: Presentation layer (input handling)
+**Model**: Business logic layer 
+**View**: Presentation layer (output) 
+**Controller**: Presentation layer (input handling)
 
 MVC can be seen as a pattern within the presentation and business logic layers.
 
@@ -11157,7 +11277,10 @@ Layered architecture adapts to cloud environments:
 
 Modern applications often combine layered architecture with DDD:
 
-**Application Layer**: Use cases and workflows **Domain Layer**: Rich domain model with business logic **Infrastructure Layer**: Data access and external services **Presentation Layer**: UI and API endpoints
+**Application Layer**: Use cases and workflows 
+**Domain Layer**: Rich domain model with business logic 
+**Infrastructure Layer**: Data access and external services 
+**Presentation Layer**: UI and API endpoints
 
 This provides better domain modeling while maintaining layer benefits.
 
@@ -11346,6 +11469,14 @@ While superficially similar, the Repository and Data Access Object (DAO) pattern
 
 In practice, modern implementations often blur these distinctions; [Inference: many consider a well-designed DAO with appropriate abstractions to effectively function as a Repository.]
 
+The Repository pattern and DAO share significant overlap, which explains why they're often confused or used interchangeably. [Inference: The key philosophical difference lies in their intent rather than their implementation.] 
+
+The Repository pattern emerged from Domain-Driven Design thinking, where the goal is to make your domain model feel like it's working with an in-memory collection of objects. When you write `userRepository.findByEmail(email)`, you're meant to think "I'm looking through my collection of users" rather than "I'm querying a database." The pattern deliberately hides not just the database technology, but the entire concept that you're doing data access at all.
+
+DAO, historically, came from a more pragmatic place: wrapping database access to make it swappable and testable. A DAO might expose methods like getUserById() or updateUser(), and nobody pretends you're not hitting a database. The abstraction is thinner. You're isolating database concerns, but you're not creating the illusion of an in-memory collection.
+
+[Inference: In practice, most modern codebases implement something in between these two extremes.] When you write a UserRepository with methods like save(), findById(), and delete(), you're implementing something that could reasonably be called either a Repository or a DAO. The name you choose often depends more on your team's vocabulary and framework conventions than on any strict technical distinction.
+
 #### Query Specifications and Advanced Retrieval
 
 Complex query requirements can be handled through query specifications, avoiding parameter explosion in the Repository interface:
@@ -11376,6 +11507,23 @@ This approach:
 - Encapsulates complex query logic in reusable Specification objects
 - Allows combining specifications for composite queries
 - Maintains testability by making queries explicit and testable objects
+
+The Specification pattern becomes valuable when your query needs grow complex. Without it, you might be tempted to add methods to your repository like `findActiveUsersByRoleCreatedAfter(Role role, Date date)`. Do this enough times and your repository interface becomes unwieldy, with dozens of highly specific query methods. [Unverified: Some sources suggest this can lead to hundreds of methods in large applications.]
+
+Instead, the Specification pattern lets you build query logic as objects. Each specification encapsulates one logical query requirement. A specification for "active users" knows what "active" means in your domain. A specification for "created after a certain date" handles that concern. These specifications can be composed: `activeUsersSpec.and(createdAfterSpec)` gives you both constraints without adding another method to your repository.
+
+The repository itself maintains a simple interface: `find(Specification<T> spec)` handles all query variations. The specification object contains a method that returns the actual query logic, whether that's a Predicate for filtering, a lambda expression, or metadata that gets translated into a database query. Different implementations might handle this differently. An in-memory implementation might use the predicate to filter a list directly. An ORM-based implementation might translate the specification into criteria API calls or query builder operations.
+
+The `getIncludes()` method mentioned in specifications addresses a common data access problem: the N+1 query issue. When you load a user and then access their related orders, you might trigger a separate database query for each user's orders. Specifications can declare which relationships should be eagerly loaded in the initial query, preventing this performance problem. [Inference: This is particularly important in Repository implementations because the pattern's abstraction can hide when relationships are loaded, making performance issues less obvious.]
+
+Testing becomes cleaner with specifications. Instead of mocking complex repository methods, you can test specifications in isolation, verifying they produce correct filtering logic. You can test that `ActiveUsersSpecification` correctly identifies which users are active without involving a database. Your repository tests can verify that it correctly applies specifications without testing every possible query combination.
+
+[Inference: The specification pattern's real value emerges in applications with genuinely complex querying needs.] For simpler applications, adding specification objects might be overengineering. A few focused repository methods may be clearer and more maintainable. The pattern shines when you have many query variations, need to combine filters in different ways, or want to share query logic across different parts of your application.
+
+Combining specifications typically follows logical operators. `spec1.and(spec2)` creates a specification that requires both conditions. `spec1.or(spec2)` requires either. `spec1.not()` inverts the condition. These combinations are themselves specifications, maintaining the same interface and composing arbitrarily deep. [Unverified: Some implementations support more sophisticated operations like ordering, pagination, and projection within specifications.]
+
+The abstraction does introduce complexity. Someone reading code that calls `repository.find(new ActiveUsersSpecification())` needs to look at the specification class to understand what "active" means. Simpler code might just write the query inline or use a clearly-named repository method. The specification pattern trades local clarity for reusability and composition capability. Whether that trade-off makes sense depends on your specific application needs and team preferences.
+
 
 #### Implementation Strategies
 
@@ -12448,6 +12596,37 @@ Components:
 
 ## Design Patterns (GoF)
 
+Here are the 23 design patterns from the Gang of Four book, organized by category:
+
+**Creational Patterns** (deal with object creation):
+1. Abstract Factory - Creates families of related objects without specifying concrete classes
+2. Builder - Constructs complex objects step by step
+3. Factory Method - Defines an interface for creating objects, letting subclasses decide which class to instantiate
+4. Prototype - Creates new objects by copying existing ones
+5. Singleton - Ensures a class has only one instance and provides global access to it
+
+**Structural Patterns** (deal with object composition):
+6. Adapter - Allows incompatible interfaces to work together
+7. Bridge - Separates abstraction from implementation
+8. Composite - Composes objects into tree structures to represent part-whole hierarchies
+9. Decorator - Adds responsibilities to objects dynamically
+10. Facade - Provides a simplified interface to a complex subsystem
+11. Flyweight - Shares objects to support large numbers of fine-grained objects efficiently
+12. Proxy - Provides a surrogate or placeholder for another object
+
+**Behavioral Patterns** (deal with object interaction and responsibility):
+13. Chain of Responsibility - Passes requests along a chain of handlers
+14. Command - Encapsulates a request as an object
+15. Interpreter - Defines a grammar and interprets sentences in that language
+16. Iterator - Provides sequential access to elements without exposing underlying representation
+17. Mediator - Defines an object that coordinates interactions between other objects
+18. Memento - Captures and restores an object's internal state
+19. Observer - Defines a one-to-many dependency where changes notify dependents
+20. State - Allows an object to alter its behavior when its internal state changes
+21. Strategy - Defines a family of interchangeable algorithms
+22. Template Method - Defines a skeleton algorithm, letting subclasses override specific steps
+23. Visitor - Separates algorithms from the objects they operate on
+
 ### Singleton
 
 #### Overview
@@ -13324,6 +13503,228 @@ class MySQLConnectionFactory extends DatabaseConnectionFactory:
     return new MySQLConnection(host, port, credentials)
 ```
 
+#### Example 1: Document Creator
+
+```python
+from abc import ABC, abstractmethod
+
+# Product interface
+class Document(ABC):
+    @abstractmethod
+    def create_pages(self):
+        pass
+
+# Concrete products
+class PDFDocument(Document):
+    def create_pages(self):
+        return "Creating PDF pages with vector graphics"
+
+class WordDocument(Document):
+    def create_pages(self):
+        return "Creating Word pages with text formatting"
+
+# Creator (abstract factory)
+class DocumentCreator(ABC):
+    @abstractmethod
+    def factory_method(self) -> Document:
+        pass
+    
+    def open_document(self):
+        document = self.factory_method()
+        return f"Opening document: {document.create_pages()}"
+
+# Concrete creators
+class PDFCreator(DocumentCreator):
+    def factory_method(self) -> Document:
+        return PDFDocument()
+
+class WordCreator(DocumentCreator):
+    def factory_method(self) -> Document:
+        return WordDocument()
+
+# Usage
+pdf_creator = PDFCreator()
+print(pdf_creator.open_document())
+
+word_creator = WordCreator()
+print(word_creator.open_document())
+```
+
+#### Example 2: Logistics System
+
+```java
+// Product interface
+interface Transport {
+    void deliver();
+}
+
+// Concrete products
+class Truck implements Transport {
+    public void deliver() {
+        System.out.println("Delivering by land in a truck");
+    }
+}
+
+class Ship implements Transport {
+    public void deliver() {
+        System.out.println("Delivering by sea in a ship");
+    }
+}
+
+// Creator
+abstract class Logistics {
+    // Factory method
+    abstract Transport createTransport();
+    
+    public void planDelivery() {
+        Transport transport = createTransport();
+        transport.deliver();
+    }
+}
+
+// Concrete creators
+class RoadLogistics extends Logistics {
+    Transport createTransport() {
+        return new Truck();
+    }
+}
+
+class SeaLogistics extends Logistics {
+    Transport createTransport() {
+        return new Ship();
+    }
+}
+
+// Usage
+Logistics roadLogistics = new RoadLogistics();
+roadLogistics.planDelivery();
+
+Logistics seaLogistics = new SeaLogistics();
+seaLogistics.planDelivery();
+```
+
+#### Example 3: UI Button Factory
+
+```javascript
+// Product interface
+class Button {
+    render() {
+        throw new Error("Method must be implemented");
+    }
+}
+
+// Concrete products
+class WindowsButton extends Button {
+    render() {
+        return "Rendering Windows-style button";
+    }
+}
+
+class MacButton extends Button {
+    render() {
+        return "Rendering Mac-style button";
+    }
+}
+
+// Creator
+class Dialog {
+    createButton() {
+        throw new Error("Factory method must be implemented");
+    }
+    
+    renderDialog() {
+        const button = this.createButton();
+        return `Dialog with: ${button.render()}`;
+    }
+}
+
+// Concrete creators
+class WindowsDialog extends Dialog {
+    createButton() {
+        return new WindowsButton();
+    }
+}
+
+class MacDialog extends Dialog {
+    createButton() {
+        return new MacButton();
+    }
+}
+
+// Usage
+const windowsDialog = new WindowsDialog();
+console.log(windowsDialog.renderDialog());
+
+const macDialog = new MacDialog();
+console.log(macDialog.renderDialog());
+```
+
+#### Example 4: Payment Processor
+
+```csharp
+// Product interface
+public interface IPaymentProcessor
+{
+    void ProcessPayment(decimal amount);
+}
+
+// Concrete products
+public class CreditCardProcessor : IPaymentProcessor
+{
+    public void ProcessPayment(decimal amount)
+    {
+        Console.WriteLine($"Processing ${amount} via Credit Card");
+    }
+}
+
+public class PayPalProcessor : IPaymentProcessor
+{
+    public void ProcessPayment(decimal amount)
+    {
+        Console.WriteLine($"Processing ${amount} via PayPal");
+    }
+}
+
+// Creator
+public abstract class PaymentService
+{
+    // Factory method
+    protected abstract IPaymentProcessor CreateProcessor();
+    
+    public void ExecutePayment(decimal amount)
+    {
+        var processor = CreateProcessor();
+        processor.ProcessPayment(amount);
+    }
+}
+
+// Concrete creators
+public class CreditCardService : PaymentService
+{
+    protected override IPaymentProcessor CreateProcessor()
+    {
+        return new CreditCardProcessor();
+    }
+}
+
+public class PayPalService : PaymentService
+{
+    protected override IPaymentProcessor CreateProcessor()
+    {
+        return new PayPalProcessor();
+    }
+}
+
+// Usage
+PaymentService creditService = new CreditCardService();
+creditService.ExecutePayment(100.00m);
+
+PaymentService paypalService = new PayPalService();
+paypalService.ExecutePayment(150.00m);
+```
+
+Each example demonstrates the core structure: abstract creator classes define the factory method, concrete creators implement it to return specific product instances, and client code works with the creator interface without knowing the concrete product classes.
+
 #### Testing Strategies
 
 ##### Mocking Products
@@ -14040,6 +14441,270 @@ class HTMLFactory implements DocumentFactory {
 }
 ```
 
+#### Python Example
+
+```python
+from abc import ABC, abstractmethod
+
+# Abstract Products
+class Button(ABC):
+    @abstractmethod
+    def render(self):
+        pass
+
+class Checkbox(ABC):
+    @abstractmethod
+    def render(self):
+        pass
+
+# Concrete Products - Windows
+class WindowsButton(Button):
+    def render(self):
+        return "Rendering Windows button"
+
+class WindowsCheckbox(Checkbox):
+    def render(self):
+        return "Rendering Windows checkbox"
+
+# Concrete Products - Mac
+class MacButton(Button):
+    def render(self):
+        return "Rendering Mac button"
+
+class MacCheckbox(Checkbox):
+    def render(self):
+        return "Rendering Mac checkbox"
+
+# Abstract Factory
+class GUIFactory(ABC):
+    @abstractmethod
+    def create_button(self) -> Button:
+        pass
+    
+    @abstractmethod
+    def create_checkbox(self) -> Checkbox:
+        pass
+
+# Concrete Factories
+class WindowsFactory(GUIFactory):
+    def create_button(self) -> Button:
+        return WindowsButton()
+    
+    def create_checkbox(self) -> Checkbox:
+        return WindowsCheckbox()
+
+class MacFactory(GUIFactory):
+    def create_button(self) -> Button:
+        return MacButton()
+    
+    def create_checkbox(self) -> Checkbox:
+        return MacCheckbox()
+
+# Client Code
+def create_ui(factory: GUIFactory):
+    button = factory.create_button()
+    checkbox = factory.create_checkbox()
+    print(button.render())
+    print(checkbox.render())
+
+# Usage
+windows_factory = WindowsFactory()
+create_ui(windows_factory)
+
+mac_factory = MacFactory()
+create_ui(mac_factory)
+```
+
+#### Java Example
+
+```java
+// Abstract Products
+interface Button {
+    void render();
+}
+
+interface Checkbox {
+    void render();
+}
+
+// Concrete Products - Windows
+class WindowsButton implements Button {
+    public void render() {
+        System.out.println("Rendering Windows button");
+    }
+}
+
+class WindowsCheckbox implements Checkbox {
+    public void render() {
+        System.out.println("Rendering Windows checkbox");
+    }
+}
+
+// Concrete Products - Mac
+class MacButton implements Button {
+    public void render() {
+        System.out.println("Rendering Mac button");
+    }
+}
+
+class MacCheckbox implements Checkbox {
+    public void render() {
+        System.out.println("Rendering Mac checkbox");
+    }
+}
+
+// Abstract Factory
+interface GUIFactory {
+    Button createButton();
+    Checkbox createCheckbox();
+}
+
+// Concrete Factories
+class WindowsFactory implements GUIFactory {
+    public Button createButton() {
+        return new WindowsButton();
+    }
+    
+    public Checkbox createCheckbox() {
+        return new WindowsCheckbox();
+    }
+}
+
+class MacFactory implements GUIFactory {
+    public Button createButton() {
+        return new MacButton();
+    }
+    
+    public Checkbox createCheckbox() {
+        return new MacCheckbox();
+    }
+}
+
+// Client
+class Application {
+    private Button button;
+    private Checkbox checkbox;
+    
+    public Application(GUIFactory factory) {
+        button = factory.createButton();
+        checkbox = factory.createCheckbox();
+    }
+    
+    public void render() {
+        button.render();
+        checkbox.render();
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        GUIFactory factory;
+        String osName = System.getProperty("os.name").toLowerCase();
+        
+        if (osName.contains("win")) {
+            factory = new WindowsFactory();
+        } else {
+            factory = new MacFactory();
+        }
+        
+        Application app = new Application(factory);
+        app.render();
+    }
+}
+```
+
+#### TypeScript Example
+
+```typescript
+// Abstract Products
+interface Button {
+    render(): string;
+}
+
+interface Checkbox {
+    render(): string;
+}
+
+// Concrete Products - Windows
+class WindowsButton implements Button {
+    render(): string {
+        return "Rendering Windows button";
+    }
+}
+
+class WindowsCheckbox implements Checkbox {
+    render(): string {
+        return "Rendering Windows checkbox";
+    }
+}
+
+// Concrete Products - Mac
+class MacButton implements Button {
+    render(): string {
+        return "Rendering Mac button";
+    }
+}
+
+class MacCheckbox implements Checkbox {
+    render(): string {
+        return "Rendering Mac checkbox";
+    }
+}
+
+// Abstract Factory
+interface GUIFactory {
+    createButton(): Button;
+    createCheckbox(): Checkbox;
+}
+
+// Concrete Factories
+class WindowsFactory implements GUIFactory {
+    createButton(): Button {
+        return new WindowsButton();
+    }
+    
+    createCheckbox(): Checkbox {
+        return new WindowsCheckbox();
+    }
+}
+
+class MacFactory implements GUIFactory {
+    createButton(): Button {
+        return new MacButton();
+    }
+    
+    createCheckbox(): Checkbox {
+        return new MacCheckbox();
+    }
+}
+
+// Client Code
+function createUI(factory: GUIFactory): void {
+    const button = factory.createButton();
+    const checkbox = factory.createCheckbox();
+    console.log(button.render());
+    console.log(checkbox.render());
+}
+
+// Usage
+const windowsFactory = new WindowsFactory();
+createUI(windowsFactory);
+
+const macFactory = new MacFactory();
+createUI(macFactory);
+```
+
+**Key Components**
+
+The Abstract Factory pattern consists of:
+
+- **Abstract Products**: Interfaces for different product types (Button, Checkbox)
+- **Concrete Products**: Specific implementations (WindowsButton, MacButton)
+- **Abstract Factory**: Interface declaring creation methods
+- **Concrete Factories**: Classes that instantiate specific product families
+- **Client**: Code that uses factories through their abstract interfaces
+
 #### Advantages
 
 **Isolation of Concrete Classes**
@@ -14550,31 +15215,26 @@ The Observer pattern was documented as one of the 23 design patterns in the infl
 **Basic interaction flow:**
 
 1. **Setup Phase:**
-    
     - ConcreteObserver objects are created
     - Each observer calls `subject.attach(this)` to register
     - Subject adds each observer to its internal list
     - Multiple observers can register with same subject
 2. **State Change:**
-    
     - ConcreteSubject's state is modified (via business logic)
     - Subject recognizes that state has changed
     - Subject calls its own `notify()` method
     - This may happen automatically or explicitly
 3. **Notification Phase:**
-    
     - Subject iterates through its list of observers
     - For each observer, subject calls `observer.update()`
     - May pass state information as parameters (push model)
     - Or observers may call back to subject for details (pull model)
 4. **Update Phase:**
-    
     - Each observer receives the notification
     - Observers execute their specific update logic
     - May update their own state or trigger actions
     - Observers work independently of each other
 5. **Cleanup Phase:**
-    
     - Observers can unregister by calling `subject.detach(this)`
     - Subject removes observer from its list
     - Observer no longer receives notifications
@@ -15699,7 +16359,7 @@ In software development, you often encounter situations where:
 
 #### Implementation Approaches
 
-**Basic Object Adapter Implementation:**
+##### **Basic Object Adapter Implementation:**
 
 ```
 // Target interface
@@ -15739,9 +16399,80 @@ const adapter = new Adapter(adaptee)
 clientCode(adapter)
 ```
 
-**Two-Way Adapter:** A variation that implements both interfaces, allowing it to work with both Target and Adaptee clients.
+##### Two-Way Adapter
 
-**Pluggable Adapter:** Uses a more flexible approach where the Adapter can work with different Adaptees through parameterization or delegation strategies.
+A variation that implements both interfaces, allowing it to work with both Target and Adaptee clients.
+
+##### Pluggable Adapter Pattern
+
+The Pluggable Adapter is a variant of the Adapter pattern that provides greater flexibility by allowing a single adapter to work with multiple adaptee types through parameterization, delegation strategies, or runtime configuration.
+
+###### Key Characteristics
+
+- **Multiple Adaptee Support**: One adapter can work with different concrete adaptee implementations
+- **Runtime Flexibility**: The adapted interface can be configured or changed at runtime
+- **Delegation Strategies**: Uses strategy objects or function pointers to handle different adaptee behaviors
+- **Reduced Class Proliferation**: Fewer adapter classes needed compared to the standard Adapter pattern
+
+###### Common Implementation Approaches
+
+**Strategy-Based Adaptation**
+The adapter accepts strategy objects that define how to interact with different adaptees:
+
+```python
+class AdaptationStrategy:
+    def execute(self, adaptee, *args):
+        raise NotImplementedError
+
+class TypeAStrategy(AdaptationStrategy):
+    def execute(self, adaptee, *args):
+        return adaptee.specific_operation_a(*args)
+
+class TypeBStrategy(AdaptationStrategy):
+    def execute(self, adaptee, *args):
+        return adaptee.different_operation_b(*args)
+
+class PluggableAdapter:
+    def __init__(self, adaptee, strategy):
+        self.adaptee = adaptee
+        self.strategy = strategy
+    
+    def request(self, *args):
+        return self.strategy.execute(self.adaptee, *args)
+```
+
+**Parameterized Adaptation**
+The adapter uses parameters or configuration to determine how to adapt different types:
+
+```python
+class PluggableAdapter:
+    def __init__(self, adaptee, method_name='default_method'):
+        self.adaptee = adaptee
+        self.method_name = method_name
+    
+    def request(self, *args):
+        method = getattr(self.adaptee, self.method_name)
+        return method(*args)
+```
+
+###### When to Use
+
+- You need to adapt multiple similar but different classes with a single adapter
+- The adaptation logic varies but follows predictable patterns
+- You want to add new adaptee types without creating new adapter classes
+- Runtime flexibility in adaptation behavior is valuable
+
+###### Trade-offs
+
+**Advantages:**
+- Reduces the number of adapter classes needed
+- More flexible and extensible
+- Easier to add support for new adaptee types
+
+**Disadvantages:**
+- More complex than standard adapters
+- May be over-engineered for simple adaptation scenarios
+- Runtime configuration can make the code harder to trace
 
 #### Real-World Examples and Use Cases
 
@@ -16103,7 +16834,7 @@ A database façade might simplify complex database operations:
 
 ---
 
-### Decorator Pattern
+### Decorator
 
 The Decorator pattern is a structural design pattern from the Gang of Four (GoF) catalog that allows behavior to be added to individual objects dynamically without affecting the behavior of other objects from the same class. It provides a flexible alternative to subclassing for extending functionality.
 
@@ -16458,3 +17189,1821 @@ The Proxy pattern serves several key purposes:
 **Test Independently** — Test the proxy and the real subject separately to ensure both work correctly in isolation and together.
 
 ---
+
+### Prototype
+
+#### Overview
+
+The Prototype pattern is a creational design pattern that allows you to create new objects by copying existing objects (prototypes) rather than creating new instances from scratch. This is particularly useful when object creation is costly or complex.
+
+#### Intent
+
+The main goals of the Prototype pattern are to specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.
+
+#### Problem It Solves
+
+When creating objects is expensive (due to complex initialization, database queries, or resource-intensive operations), or when you need many similar objects with slight variations, repeatedly using constructors or factory methods can be inefficient. The Prototype pattern addresses this by cloning existing objects instead.
+
+#### Structure
+
+The pattern typically involves these components:
+
+**Prototype Interface** - Declares a cloning method (usually called `clone()` or `copy()`)
+
+**Concrete Prototype** - Implements the cloning method to return a copy of itself
+
+**Client** - Creates new objects by asking a prototype to clone itself
+
+#### How It Works
+
+Instead of calling a constructor with `new`, you call a `clone()` method on an existing object. The cloned object is a copy of the original, which you can then modify as needed. This is especially valuable when:
+- The object's class is determined at runtime
+- You want to avoid building a parallel class hierarchy of factories
+- Instances can have only a few different combinations of state
+
+#### Implementation Considerations
+
+**Shallow vs Deep Copy** - You must decide whether cloning creates a shallow copy (copying references) or deep copy (copying referenced objects recursively). Deep copying is more complex but often necessary.
+
+**Clone Method** - Languages handle cloning differently. Some provide built-in support (like Java's `Cloneable` interface), while others require manual implementation.
+
+**Prototype Registry** - Often combined with a registry or manager that stores commonly used prototypes, allowing clients to retrieve and clone them by name or key.
+
+#### Advantages
+
+The pattern provides several benefits: it hides concrete product classes from the client, allows adding and removing products at runtime, lets you specify new objects by varying values rather than structure, reduces the need for subclassing, and can be more efficient than construction when object creation is expensive.
+
+#### Disadvantages
+
+The main challenges include the complexity of implementing deep copies correctly, especially for objects with circular references, and potential difficulties in languages that don't provide good cloning support.
+
+#### Example Scenario
+
+Consider a graphics editor where you have complex shape objects with many properties (color, position, size, texture, shadow effects). Creating each shape from scratch is expensive. Instead, you maintain prototype shapes that users can clone and modify. When a user wants a red circle, they clone the circle prototype and change its color, rather than constructing a new circle object with all its default properties.
+
+#### Relationship to Other Patterns
+
+The Prototype pattern often works alongside other patterns. It can be used with Abstract Factory to store and clone prototypes instead of creating objects. It's similar to but distinct from the Memento pattern, which also involves copying state but for different purposes (saving/restoring vs creating new objects).
+
+#### Real-World Applications
+
+Common uses include: object pools and caching systems, undo/redo functionality in applications, creating variations of game objects (characters, weapons, enemies), and initializing objects with default configurations that can be cloned and customized.
+
+---
+
+### Bridge
+
+#### Overview
+
+The Bridge pattern is a structural design pattern that decouples an abstraction from its implementation so that the two can vary independently. It uses composition over inheritance to separate concerns and increase flexibility.
+
+#### Intent
+
+The main goal is to avoid a permanent binding between an abstraction and its implementation, allowing both to be extended independently without affecting each other.
+
+#### Problem It Solves
+
+When you have multiple dimensions of variation in a class hierarchy, using inheritance alone can lead to an explosion of subclasses. For example, if you have shapes (circle, square) and rendering methods (vector, raster), pure inheritance would require CircleVector, CircleRaster, SquareVector, SquareRaster classes. Each new shape or rendering method multiplies the number of required classes. The Bridge pattern prevents this combinatorial explosion.
+
+#### Structure
+
+The pattern involves these components:
+
+**Abstraction** - Defines the abstraction's interface and maintains a reference to an object of type Implementor
+
+**Refined Abstraction** - Extends the interface defined by Abstraction
+
+**Implementor** - Defines the interface for implementation classes (this doesn't have to match the Abstraction's interface)
+
+**Concrete Implementor** - Provides concrete implementations of the Implementor interface
+
+#### How It Works
+
+Instead of putting all variations in one class hierarchy, you split the concepts into two separate hierarchies: one for the abstraction and one for the implementation. The abstraction contains a reference to the implementation and delegates the actual work to it. Clients interact with the abstraction, which forwards requests to the implementation object.
+
+#### Key Concept
+
+The "bridge" is the composition relationship between the abstraction and the implementation. The abstraction holds a reference to the implementor rather than inheriting from it, creating a bridge between the two hierarchies.
+
+#### Implementation Example Context
+
+Consider a remote control system for devices. The abstraction hierarchy might include RemoteControl, AdvancedRemoteControl. The implementation hierarchy might include TV, Radio, DVD. Each remote control holds a reference to a device and sends commands to it. You can pair any remote with any device without creating specific subclasses for each combination.
+
+#### Advantages
+
+The pattern offers several benefits: it decouples interface from implementation, improves extensibility (you can extend abstraction and implementation hierarchies independently), hides implementation details from clients, and reduces the number of classes needed for multiple variations.
+
+#### Disadvantages
+
+The main drawbacks include increased complexity in the design, requiring more classes and interfaces, and potentially making the code harder to understand initially due to the additional indirection layer.
+
+#### When to Use
+
+Apply the Bridge pattern when you want to avoid permanent binding between abstraction and implementation, when both abstractions and implementations should be extensible through subclassing, when changes in implementation shouldn't impact clients, when you have a proliferation of classes from a coupled interface and implementation, or when you want to share an implementation among multiple objects.
+
+#### Relationship to Other Patterns
+
+The Bridge pattern is related to several other patterns. It's often confused with Adapter, but Adapter makes unrelated interfaces work together while Bridge separates abstraction from implementation from the start. It can work with Abstract Factory to create specific bridge configurations. Strategy pattern is similar but focuses on algorithms while Bridge focuses on structure.
+
+#### Real-World Applications
+
+Common uses include: GUI frameworks where the abstraction is the window/widget and implementation is the platform-specific rendering, database drivers where abstraction is the database API and implementation is the specific database type, device drivers, messaging systems with multiple delivery mechanisms, and graphics rendering with different rendering engines.
+
+#### Distinction from Strategy
+
+[Inference] While Bridge and Strategy both use composition and may appear similar, Bridge is about separating what something is from how it works (structural concern), while Strategy is about selecting different algorithms at runtime (behavioral concern). The intent and context differ even though the implementation techniques overlap.
+
+---
+
+### Composite
+
+#### Overview
+
+The Composite pattern is a structural design pattern that allows you to compose objects into tree structures to represent part-whole hierarchies. It lets clients treat individual objects and compositions of objects uniformly.
+
+#### Intent
+
+The main goal is to allow clients to work with individual objects and compositions of objects through a common interface, without needing to distinguish between them.
+
+#### Problem It Solves
+
+When working with tree-like structures where you have both simple elements and containers that hold other elements, clients often need different code to handle each type. For example, in a file system, you need different logic to handle files versus directories. The Composite pattern eliminates this distinction by providing a uniform interface for both leaves (individual objects) and composites (containers).
+
+#### Structure
+
+The pattern involves these components:
+
+**Component** - Declares the interface for objects in the composition and implements default behavior common to all classes. Declares an interface for accessing and managing child components.
+
+**Leaf** - Represents leaf objects in the composition that have no children. Defines behavior for primitive objects.
+
+**Composite** - Defines behavior for components having children. Stores child components and implements child-related operations in the Component interface.
+
+**Client** - Manipulates objects in the composition through the Component interface.
+
+#### How It Works
+
+All elements in the tree structure implement the same interface (Component). Leaf nodes perform operations directly, while composite nodes delegate operations to their children and may perform additional processing. When a client calls an operation on a composite, the composite forwards the request to its child components, which may themselves be composites or leaves. This creates a recursive structure where operations propagate through the tree.
+
+#### Key Concept
+
+The core idea is uniformity: clients interact with all objects in the tree structure the same way, regardless of whether they're dealing with a simple leaf or a complex composite containing many nested elements.
+
+#### Implementation Example Context
+
+Consider a graphics drawing application. You have simple shapes (circles, rectangles) and groups that contain multiple shapes. Both shapes and groups implement a common interface with methods like `draw()`, `move()`, and `resize()`. When you call `draw()` on a group, it calls `draw()` on all its contained shapes. When you call `draw()` on a simple shape, it just draws itself. The client doesn't need to know whether it's drawing a single shape or a complex group.
+
+#### Advantages
+
+The pattern provides several benefits: it makes the client code simpler by treating primitives and composites uniformly, makes it easier to add new types of components, and naturally represents hierarchical structures. You can add new leaf or composite classes without changing existing code.
+
+#### Disadvantages
+
+The main challenges include: difficulty in restricting what types of components can be added to a composite, potentially making the design overly general, and complexity in implementing operations that only make sense for certain component types.
+
+#### Design Considerations
+
+**Where to Define Child Management** - You can define child-related operations (add, remove, getChild) in the Component interface for uniformity, or only in the Composite class for type safety. The former approach sacrifices safety for transparency, while the latter sacrifices transparency for safety.
+
+**Child Ordering** - Consider whether the order of children matters and how to manage it.
+
+**Caching** - Composites may cache traversal or computation results for performance.
+
+**Parent References** - Some implementations maintain references from children to parents to simplify traversal and deletion.
+
+#### When to Use
+
+Apply the Composite pattern when you want to represent part-whole hierarchies of objects, when you want clients to be able to ignore the difference between compositions of objects and individual objects, or when you have a tree structure where operations should work uniformly across the tree.
+
+#### Relationship to Other Patterns
+
+The Composite pattern works well with several other patterns. It often uses Iterator to traverse composites. Visitor can be applied to perform operations over a Composite structure. Decorator has a similar structure but different intent (adding responsibilities vs representing hierarchies). Flyweight can be used to share leaf nodes. Chain of Responsibility often uses Composite for the component hierarchy.
+
+#### Real-World Applications
+
+Common uses include: file system structures (files and directories), GUI component hierarchies (containers and widgets), organization charts (employees and departments), document structures (paragraphs, sections, chapters), arithmetic expressions (numbers and compound expressions), and menu systems (menu items and submenus).
+
+#### Example Scenario
+
+In an organization structure, you have individual employees (leaves) and departments (composites). Both implement an interface with methods like `getSalary()` and `print()`. An employee returns their own salary, while a department calculates the total by summing all its members' salaries (which may include sub-departments). The CEO can call `getSalary()` on the entire organization composite and get the total company payroll without knowing the internal structure.
+
+#### Transparency vs Safety Tradeoff
+
+[Inference] A key design decision is whether to include child management operations in the Component interface (transparent approach - all components look the same but leaves have meaningless child operations) or only in Composite (safe approach - type-safe but requires checking types). Most implementations favor transparency for simplicity, accepting that some operations may not be meaningful for all component types.
+
+---
+
+### Flyweight
+
+#### Overview
+
+The Flyweight pattern is a structural design pattern that minimizes memory usage by sharing as much data as possible with similar objects. It enables efficient support for large numbers of fine-grained objects by sharing common state.
+
+#### Intent
+
+The main goal is to use sharing to support large numbers of objects efficiently when many objects share common data, reducing memory consumption and improving performance.
+
+#### Problem It Solves
+
+When an application needs to create a very large number of objects that share much of their state, memory consumption can become prohibitive. For example, a text editor displaying a document with thousands of characters would be inefficient if each character object stored its own font, size, and style information. The Flyweight pattern addresses this by extracting and sharing the common state among many objects.
+
+#### Key Concepts
+
+**Intrinsic State** - The state that is shared and stored in the flyweight object. This is context-independent and can be shared across multiple contexts.
+
+**Extrinsic State** - The state that varies between objects and cannot be shared. This is context-dependent and must be passed to the flyweight by the client.
+
+The pattern separates these two types of state, storing only the intrinsic state in flyweight objects while clients compute or store the extrinsic state.
+
+#### Structure
+
+The pattern involves these components:
+
+**Flyweight** - Declares an interface through which flyweights can receive and act on extrinsic state.
+
+**Concrete Flyweight** - Implements the Flyweight interface and stores intrinsic state. Must be shareable and independent of context.
+
+**Flyweight Factory** - Creates and manages flyweight objects, ensuring that flyweights are shared properly. When a client requests a flyweight, the factory returns an existing instance or creates one if it doesn't exist.
+
+**Client** - Maintains references to flyweights and computes or stores extrinsic state.
+
+#### How It Works
+
+Instead of creating many similar objects, clients request flyweights from a factory. The factory maintains a pool of existing flyweight objects. When a client requests a flyweight with specific intrinsic state, the factory checks if one already exists. If it does, the factory returns that instance. If not, it creates a new flyweight, adds it to the pool, and returns it. Clients then pass extrinsic state to the flyweight when calling its methods.
+
+#### Implementation Example Context
+
+Consider a forest simulation with millions of trees. Each tree has intrinsic state (name, color, texture - shared among trees of the same species) and extrinsic state (coordinates, size - unique to each tree). Instead of storing all data in millions of tree objects, you create one flyweight object per tree species containing the intrinsic state, and store only coordinates and size for each individual tree position.
+
+#### Advantages
+
+The pattern provides several benefits: significantly reduces memory consumption when many objects share common state, can improve performance by reducing object creation overhead, centralizes shared state management, and makes it easier to maintain consistent shared data.
+
+#### Disadvantages
+
+The main challenges include: increased complexity from separating intrinsic and extrinsic state, runtime costs from computing or passing extrinsic state, potential performance tradeoff (may trade CPU time for memory savings), and difficulty in determining what state should be intrinsic versus extrinsic.
+
+#### When to Use
+
+Apply the Flyweight pattern when an application uses a large number of objects, storage costs are high because of the quantity of objects, most object state can be made extrinsic, many groups of objects may be replaced by relatively few shared objects once extrinsic state is removed, and the application doesn't depend on object identity (shared objects cannot be distinguished).
+
+#### Design Considerations
+
+**Sharing Must Be Worthwhile** - The pattern is most effective when the savings from sharing outweigh the costs of managing extrinsic state. The more flyweights are shared, the greater the space savings.
+
+**Immutability** - Flyweights should typically be immutable since they're shared. Any operation that would modify a flyweight should instead create a new one or operate on extrinsic state.
+
+**Factory Management** - The factory is critical for ensuring sharing. It must maintain the pool efficiently and provide quick lookups.
+
+#### Relationship to Other Patterns
+
+The Flyweight pattern relates to several other patterns. It's often combined with Composite to implement shared leaf nodes in tree structures. State and Strategy objects can be flyweights if they have no extrinsic state. Singleton is related but different - Singleton ensures one instance per class while Flyweight allows multiple instances that are shared. Factories are essential for managing flyweight pools.
+
+#### Real-World Applications
+
+Common uses include: text editors (character objects sharing font and formatting data), game development (particles, bullets, terrain tiles sharing visual properties), GUI systems (shared icons, cursors, styles), database connection pooling (sharing expensive connection objects), and graphics systems (sharing textures, models, or rendering data).
+
+#### Example Scenario
+
+In a word processor, instead of creating separate objects for each letter with its own font, size, and color data, you create flyweight objects for each unique character-font-size-color combination. If your document has 10,000 characters using 5 different fonts and 3 sizes, instead of 10,000 complete objects, you might have only 15-50 flyweight objects (depending on color usage). Each character position in the document stores only a reference to its flyweight and its position coordinates.
+
+#### Memory Calculation
+
+[Inference] The memory savings can be substantial. If each complete character object requires 100 bytes and you have 10,000 characters, that's 1MB. With flyweights, if you have 50 shared flyweight objects at 80 bytes each (4KB) plus 10,000 references and positions at 20 bytes each (200KB), the total is about 204KB - roughly 80% savings. The actual savings depend on the specific ratio of shared to unique state.
+
+#### Common Pitfall
+
+[Unverified] A common mistake is trying to apply Flyweight when the number of unique intrinsic states is too high, resulting in minimal sharing and adding complexity without benefit. The pattern works best when there are far fewer unique combinations of intrinsic state than total objects needed.
+
+---
+
+### Chain of Responsibility
+
+#### Overview
+
+The Chain of Responsibility pattern is a behavioral design pattern that allows you to pass requests along a chain of handlers. Each handler decides either to process the request or to pass it to the next handler in the chain.
+
+#### Intent
+
+The main goal is to avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until an object handles it.
+
+#### Problem It Solves
+
+When you have multiple objects that could handle a request, but you don't want the sender to know which specific object will handle it, or when the set of handler objects should be specified dynamically, hardcoding the sender-receiver relationship is inflexible. The pattern also addresses situations where more than one object may need to handle a request, with the handler determined at runtime.
+
+#### Structure
+
+The pattern involves these components:
+
+**Handler** - Defines an interface for handling requests and optionally implements the link to the next handler in the chain.
+
+**Concrete Handler** - Handles requests it is responsible for. Can access its successor and forwards requests it doesn't handle to the next handler.
+
+**Client** - Initiates the request to a handler object in the chain.
+
+#### How It Works
+
+Handlers are linked together in a sequence. Each handler has a reference to the next handler in the chain. When a request comes in, the first handler examines it. If it can handle the request, it does so and may choose to stop processing or pass it along. If it cannot handle the request, it forwards it to the next handler. This continues until a handler processes the request or the end of the chain is reached.
+
+#### Processing Variations
+
+**Single Handler** - Only one handler processes the request, then stops the chain.
+
+**Multiple Handlers** - Several handlers may process the request sequentially, each performing part of the work.
+
+**Conditional Forwarding** - A handler may partially process the request and then decide whether to forward it based on the result.
+
+#### Implementation Example Context
+
+Consider a help system in an application. When a user requests help on a UI element, the request starts with that specific widget. If the widget has context-specific help, it displays it. Otherwise, it passes the request to its containing panel. If the panel can't help, it passes to the window, then to the application level, and finally to general help documentation. Each level handles increasingly general help requests.
+
+#### Advantages
+
+The pattern provides several benefits: it reduces coupling by freeing objects from needing to know the chain's structure, adds flexibility in assigning responsibilities to objects dynamically, allows you to add or change handlers without modifying client code, and gives you control over the order of request handling.
+
+#### Disadvantages
+
+The main challenges include: no guarantee that a request will be handled (it might fall through the entire chain), debugging can be difficult since request flow is implicit, and potential performance concerns if the chain is long or handlers are expensive.
+
+#### When to Use
+
+Apply the Chain of Responsibility pattern when more than one object may handle a request and the handler isn't known in advance, when you want to issue a request to one of several objects without specifying the receiver explicitly, when the set of objects that can handle a request should be specified dynamically, or when you want to avoid hardwiring request-response relationships.
+
+#### Design Considerations
+
+**Chain Assembly** - The chain can be constructed by the client, pre-configured in the system, or built dynamically based on context.
+
+**Handler Interface** - Consider whether handlers should have a common interface or base class, and whether they should be able to break the chain or always forward.
+
+**Default Behavior** - Decide what happens if no handler processes the request - should there be an error, a default handler, or silent failure?
+
+**Request Representation** - Requests can be method calls, command objects, or event structures depending on complexity needs.
+
+#### Relationship to Other Patterns
+
+The Chain of Responsibility pattern relates to several other patterns. It's often used with Composite where a component's parent can act as its successor. Command can represent requests as objects to be passed along the chain. Decorator has a similar structure but focuses on adding responsibilities rather than handling or forwarding. Mediator and Observer handle request distribution differently - Mediator uses centralized control while Observer uses broadcast.
+
+#### Real-World Applications
+
+Common uses include: event handling systems (GUI events bubbling through component hierarchies), logging frameworks (different log levels handled by different loggers), exception handling mechanisms, approval workflows (expense approvals escalating through management levels), middleware pipelines in web frameworks, and customer support ticketing systems.
+
+#### Example Scenario
+
+In an expense approval system, an employee submits an expense report. It first goes to their immediate supervisor who can approve amounts up to $1,000. If the amount is higher, it's forwarded to a department manager who can approve up to $10,000. Larger amounts go to the director, then to the VP, and finally to the CFO. Each handler in the chain has authority over a specific range and either approves or forwards the request.
+
+#### Variant: Event Bubbling
+
+In GUI systems, events often bubble up through the component hierarchy. A mouse click on a button might be handled by the button, but if not, it bubbles to the panel containing the button, then to the window, and so on. This is a common real-world implementation of the pattern.
+
+#### Pure vs Impure Chains
+
+**Pure Chain** - Each handler either processes the request completely or passes it on unchanged. The request stops at the first handler that processes it.
+
+**Impure Chain** - Handlers may partially process the request and still pass it along, or multiple handlers may process aspects of the same request.
+
+[Inference] Most real-world implementations are impure chains, as they provide more flexibility for complex scenarios where multiple handlers need to collaborate on processing a request.
+
+#### Performance Consideration
+
+[Unverified] In performance-critical applications with long chains, consider whether every request must traverse the entire chain. Optimization strategies might include caching handler decisions, indexing handlers by request type, or using priority queues, though these add complexity.
+
+---
+
+### Command
+
+#### Overview
+
+The Command pattern is a behavioral design pattern that encapsulates a request as an object, thereby allowing you to parameterize clients with different requests, queue or log requests, and support undoable operations.
+
+#### Intent
+
+The main goal is to decouple the object that invokes an operation from the object that knows how to perform it, by encapsulating requests as objects with a common interface.
+
+#### Problem It Solves
+
+When you need to issue requests to objects without knowing anything about the operation being requested or the receiver of the request, direct coupling between invoker and receiver is inflexible. The pattern also addresses needs like queuing operations, logging changes for crash recovery, supporting undo/redo functionality, and building transactions from primitive operations.
+
+#### Structure
+
+The pattern involves these components:
+
+**Command** - Declares an interface for executing an operation, typically just an `execute()` method.
+
+**Concrete Command** - Defines a binding between a Receiver object and an action. Implements `execute()` by invoking corresponding operations on the Receiver.
+
+**Receiver** - Knows how to perform the operations associated with carrying out a request. Any class can serve as a Receiver.
+
+**Invoker** - Asks the command to carry out the request. Holds a reference to the command object.
+
+**Client** - Creates a Concrete Command object and sets its receiver.
+
+#### How It Works
+
+Instead of calling methods directly on receiver objects, the client creates command objects that encapsulate all information needed to perform an action: the receiver object, the method to call, and any arguments. The client passes the command to an invoker, which stores it and later calls its `execute()` method. The command object then invokes the appropriate method on the receiver. This indirection allows commands to be stored, queued, logged, or manipulated before execution.
+
+#### Implementation Example Context
+
+Consider a text editor with menu items and toolbar buttons for operations like Copy, Paste, and Bold. Instead of each UI element directly calling editor methods, each creates a command object (CopyCommand, PasteCommand, BoldCommand). These commands are given to the editor's command processor (invoker), which can execute them immediately, add them to an undo stack, or queue them for batch execution. Each command knows which editor object (receiver) to operate on and what method to call.
+
+#### Advantages
+
+The pattern provides several benefits: it decouples the invoker from the receiver, allows you to assemble commands into composite commands, makes it easy to add new commands without changing existing code, supports undo/redo by storing command state, enables command queuing and scheduling, allows logging of commands for crash recovery, and supports transactional behavior.
+
+#### Disadvantages
+
+The main challenges include: increased number of classes (one per command type), potential complexity from the additional layer of abstraction, and overhead from creating command objects for simple operations that might not need such flexibility.
+
+#### When to Use
+
+Apply the Command pattern when you want to parameterize objects with operations, when you need to specify, queue, and execute requests at different times, when you need to support undo/redo functionality, when you need to log changes for replay or crash recovery, when you want to structure a system around high-level operations built on primitive operations, or when you need to support transactions.
+
+#### Undo/Redo Implementation
+
+To support undo operations, commands must store enough state to reverse their effects. This typically involves:
+
+**Storing Previous State** - Before executing, the command saves information needed to reverse the operation.
+
+**Unexecute Method** - Commands implement an `undo()` or `unexecute()` method that reverses the `execute()` operation.
+
+**History Mechanism** - The invoker maintains a history list (stack) of executed commands. Undo pops commands from this stack and calls their `undo()` method.
+
+**Redo Support** - A separate stack holds undone commands, allowing them to be re-executed.
+
+#### Design Considerations
+
+**How Much Intelligence** - Commands can range from simple (just forwarding to a receiver) to complex (implementing the entire operation themselves). The tradeoff is between reusability and flexibility.
+
+**Supporting Undo** - Not all commands need undo support. Simple commands like printing don't need reversal. Consider which commands require this functionality.
+
+**Command Parameterization** - Commands can be parameterized with data either at creation time or when `execute()` is called.
+
+**Macro Commands** - You can create composite commands that execute a sequence of commands, useful for complex operations or recorded macros.
+
+#### Relationship to Other Patterns
+
+The Command pattern relates to several other patterns. Composite can be used to implement macro commands that group multiple commands. Memento can store state for undo operations within commands. Prototype can be used to copy commands for history management. Chain of Responsibility can use commands to represent requests passed along the chain. Strategy is similar but focuses on different ways to perform an algorithm, while Command focuses on encapsulating requests.
+
+#### Real-World Applications
+
+Common uses include: GUI actions (menu items, buttons, keyboard shortcuts), transactional systems (database operations, financial transactions), job queues and thread pools, macro recording and playback, remote procedure calls, progress tracking and cancellation, wizard workflows, and game input systems.
+
+#### Example Scenario
+
+In a home automation system, you have devices (lights, thermostat, garage door) as receivers. You create commands like TurnOnLightCommand, SetTemperatureCommand, OpenGarageDoorCommand. These can be bound to physical buttons, scheduled in a timer, triggered by voice commands, or executed in sequences. A "Good Night" macro command might execute: TurnOffAllLightsCommand, SetTemperatureCommand(65°F), LockDoorsCommand. Each command can be undone if executed accidentally.
+
+#### Command as First-Class Objects
+
+By treating operations as first-class objects, you gain powerful capabilities. Commands can be:
+- Stored in collections
+- Passed as method parameters
+- Returned from methods
+- Serialized to disk
+- Sent over networks
+- Dynamically composed at runtime
+
+#### Callback Alternative
+
+[Inference] The Command pattern can be viewed as an object-oriented replacement for callbacks. While callbacks pass function pointers, commands pass objects with `execute()` methods. Commands are more flexible because they can store state, support undo, and be manipulated as objects.
+
+#### Transaction Support
+
+Commands are well-suited for implementing transactional behavior. A transaction can be modeled as a sequence of commands. If all commands succeed, the transaction commits. If any fails, all previously executed commands are undone in reverse order. This provides atomic, all-or-nothing execution.
+
+#### Performance Consideration
+
+[Unverified] For performance-critical applications with many simple operations, the overhead of creating command objects for every action might be significant. In such cases, consider using the pattern selectively for operations that need undo/logging/queuing support, while allowing direct calls for simple operations.
+
+---
+
+### Interpreter 
+
+#### Overview
+
+The Interpreter pattern is a behavioral design pattern that defines a representation for a grammar of a language and provides an interpreter to process sentences in that language. It represents grammar rules as class hierarchies and interprets sentences by traversing these hierarchies.
+
+#### Intent
+
+The main goal is to define a representation for the grammar of a simple language and provide an interpreter that uses this representation to interpret sentences in the language.
+
+#### Problem It Solves
+
+When you have a language or notation that needs to be interpreted, and you can represent statements in the language as abstract syntax trees, hardcoding the interpretation logic makes it difficult to change or extend the grammar. The pattern addresses this by representing each grammar rule as a class, making it easier to implement, change, and extend the language.
+
+#### Structure
+
+The pattern involves these components:
+
+**Abstract Expression** - Declares an abstract `interpret()` method that is common to all nodes in the abstract syntax tree.
+
+**Terminal Expression** - Implements the `interpret()` operation for terminal symbols in the grammar (leaf nodes).
+
+**Nonterminal Expression** - Implements the `interpret()` operation for nonterminal symbols (composite nodes). Maintains references to child expressions.
+
+**Context** - Contains information that is global to the interpreter, such as variable values or the input to be interpreted.
+
+**Client** - Builds (or is given) an abstract syntax tree representing a sentence in the language. Invokes the `interpret()` operation.
+
+#### How It Works
+
+The client constructs an abstract syntax tree from the grammar rules. Each node in the tree is an expression object. Terminal expressions represent the basic elements (like numbers or variables), while nonterminal expressions represent compound rules (like addition or multiplication). To interpret a sentence, the client calls `interpret()` on the root node, passing a context. Each expression interprets itself by potentially calling `interpret()` on its children and combining the results according to its grammar rule.
+
+#### Implementation Example Context
+
+Consider a simple calculator language with expressions like "3 + 5" or "(2 + 3) * 4". You define:
+- Terminal expressions for numbers (NumberExpression)
+- Nonterminal expressions for operations (AddExpression, MultiplyExpression)
+
+The expression "(2 + 3) * 4" becomes a tree where MultiplyExpression has two children: an AddExpression (with children NumberExpression(2) and NumberExpression(3)) and NumberExpression(4). Calling `interpret()` on the root evaluates the entire expression.
+
+#### Advantages
+
+The pattern provides several benefits: makes it easy to change and extend the grammar (adding new expressions is straightforward), implementing the grammar is straightforward since each rule maps to a class, complex grammars can be represented as class hierarchies, and adding new ways to interpret expressions is easy.
+
+#### Disadvantages
+
+The main challenges include: complex grammars are hard to maintain (each grammar rule requires at least one class, so the class hierarchy can become very large), efficiency concerns (interpretation via tree walking is generally slower than compiled approaches), and limited applicability (works best for simple languages, not suitable for complex programming languages).
+
+#### When to Use
+
+Apply the Interpreter pattern when the grammar is simple, efficiency is not a critical concern, and you want to represent statements in a language as abstract syntax trees. It's particularly useful for domain-specific languages, configuration languages, query languages, and rule engines where the grammar is relatively stable but expressions vary.
+
+#### Grammar Representation
+
+The pattern works with context-free grammars that can be expressed in BNF (Backus-Naur Form) notation. Each production rule in the grammar becomes a class:
+- Terminal symbols become terminal expression classes
+- Nonterminal symbols become nonterminal expression classes with references to sub-expressions
+
+#### Design Considerations
+
+**Sharing Terminal Expressions** - Terminal expressions can often be shared using Flyweight pattern since they typically have no state or immutable state.
+
+**Context Content** - The context typically contains variable bindings, function definitions, or the input stream being parsed. Consider what information needs to be global versus local to expression evaluation.
+
+**Building the Syntax Tree** - The pattern doesn't specify how to build the abstract syntax tree. This is typically done by a parser, which can be hand-written or generated using parser tools.
+
+**Traversal Order** - Expression trees are typically traversed depth-first, but the order may vary depending on the language semantics.
+
+#### Relationship to Other Patterns
+
+The Interpreter pattern relates to several other patterns. Composite is used to represent the abstract syntax tree structure. Flyweight can share terminal expressions. Iterator can traverse the expression tree. Visitor can be used to define new operations on the expression tree without changing expression classes. Strategy might be used if different interpretation algorithms are needed.
+
+#### Real-World Applications
+
+Common uses include: regular expression matching, mathematical expression evaluators, SQL query interpreters (for simple queries), configuration file parsers, scripting language interpreters, rule engines for business logic, search query parsers, and format string processors.
+
+#### Example Scenario
+
+In a business rule engine, you might have rules like "IF customer.age > 65 AND customer.loyaltyYears > 10 THEN discount = 0.20". This becomes an expression tree with:
+- IfExpression (nonterminal) containing:
+  - AndExpression (nonterminal) containing:
+    - GreaterThanExpression with customer.age and 65
+    - GreaterThanExpression with customer.loyaltyYears and 10
+  - AssignmentExpression for discount = 0.20
+
+The context contains the customer object. Calling `interpret()` evaluates the rule for that customer.
+
+#### Alternative: Parser Generators
+
+[Inference] For more complex languages, parser generators and compiler-compilers (like ANTLR, Yacc, Bison) are typically more practical than hand-coding the Interpreter pattern. These tools automatically generate parsers and can produce more efficient interpreters. The Interpreter pattern is most appropriate for simple domain-specific languages where the grammar is stable and readability matters more than performance.
+
+#### Optimization Considerations
+
+**Caching Results** - If the same sub-expressions are evaluated repeatedly, consider caching their results.
+
+**Compilation** - For frequently executed expressions, consider compiling the abstract syntax tree to bytecode or machine code rather than interpreting it each time.
+
+**Lazy Evaluation** - Some expressions can defer evaluation until their results are actually needed.
+
+[Unverified] These optimizations add significant complexity and may not be worthwhile unless performance profiling indicates interpretation is a bottleneck.
+
+#### Typical Implementation Pattern
+
+A typical implementation flow:
+1. Define the grammar in BNF notation
+2. Create an abstract Expression class with `interpret()` method
+3. Create a class for each terminal and nonterminal symbol
+4. Build a parser to construct the abstract syntax tree
+5. Create a context object to hold interpretation state
+6. Call `interpret()` on the root expression with the context
+
+#### Limitations
+
+The pattern is not suitable for:
+- Languages with complex grammars requiring hundreds of rules
+- Performance-critical applications where interpretation speed matters
+- Languages requiring optimization or static analysis
+- Grammars that change frequently or need runtime modification
+
+For such cases, more sophisticated approaches like compiler construction techniques, virtual machines, or just-in-time compilation are more appropriate.
+
+---
+
+### Iterator
+
+#### Overview
+
+The Iterator pattern is a behavioral design pattern that provides a way to access elements of an aggregate object sequentially without exposing its underlying representation. It encapsulates the traversal logic in a separate iterator object.
+
+#### Intent
+
+The main goal is to provide a standard way to traverse a collection without exposing the collection's internal structure, and to support multiple simultaneous traversals of the same collection.
+
+#### Problem It Solves
+
+When you have different types of collections (arrays, lists, trees, graphs) and need to traverse them, each collection might require different traversal logic. Exposing the internal structure to clients violates encapsulation. Implementing traversal directly in the collection class bloats its interface and makes it harder to support multiple simultaneous traversals or different traversal algorithms.
+
+#### Structure
+
+The pattern involves these components:
+
+**Iterator** - Defines an interface for accessing and traversing elements, typically including methods like `next()`, `hasNext()`, `current()`.
+
+**Concrete Iterator** - Implements the Iterator interface and keeps track of the current position in the traversal of the aggregate.
+
+**Aggregate** - Defines an interface for creating an Iterator object, typically a method like `createIterator()` or `iterator()`.
+
+**Concrete Aggregate** - Implements the Iterator creation interface to return an instance of the proper Concrete Iterator.
+
+#### How It Works
+
+The collection provides a method to create an iterator. The client obtains an iterator from the collection and uses it to access elements one at a time. The iterator maintains the current position in the traversal and provides methods to move to the next element, check if more elements exist, and retrieve the current element. The collection's internal structure remains hidden from the client.
+
+#### Implementation Example Context
+
+Consider a social network with a user profile that has friends stored internally as an array, but also needs to provide iterators for different types of connections (friends, coworkers, close friends). Each iterator type implements different filtering and traversal logic. The profile class provides methods like `getFriendsIterator()`, `getCoworkersIterator()` that return appropriate iterators. Clients use these iterators uniformly without knowing how friends are stored or filtered.
+
+#### Advantages
+
+The pattern provides several benefits: separates traversal logic from the collection, supports multiple simultaneous traversals of the same collection, provides a uniform interface for traversing different collection types, allows new traversal algorithms without changing the collection, and maintains encapsulation by hiding the collection's internal structure.
+
+#### Disadvantages
+
+The main challenges include: overhead from creating iterator objects for simple collections, potential complexity when the collection is modified during iteration, and increased code volume from defining separate iterator classes.
+
+#### When to Use
+
+Apply the Iterator pattern when you want to access a collection's contents without exposing its internal representation, when you need to support multiple traversals of collections, when you want to provide a uniform interface for traversing different collection structures, or when you need different traversal algorithms for the same collection.
+
+#### Iterator Types
+
+**External Iterator** - The client controls the iteration by explicitly calling `next()` and `hasNext()`. Provides more flexibility but requires more client code.
+
+**Internal Iterator** - The iterator controls the iteration and applies a client-provided operation to each element (like forEach with a callback). Simpler for clients but less flexible.
+
+**Robust Iterator** - Handles modifications to the collection during iteration, either by copying the collection, detecting modifications and throwing exceptions (fail-fast), or adjusting to changes.
+
+**Null Iterator** - Returns false for `hasNext()` and is used in recursive structures to simplify boundary conditions.
+
+#### Design Considerations
+
+**Who Controls Iteration** - External iterators give clients control over iteration, while internal iterators (using callbacks or closures) handle iteration internally.
+
+**Who Defines Traversal Algorithm** - The algorithm can be in the iterator (allowing different iterators for the same collection) or in the collection (simpler but less flexible).
+
+**Modification During Iteration** - Decide how to handle collection modifications during iteration: prevent them, allow them with undefined behavior, or track them and throw exceptions.
+
+**Privileged Access** - Iterators often need access to the collection's private data structures. They're frequently implemented as inner classes or friends of the collection class.
+
+#### Relationship to Other Patterns
+
+The Iterator pattern relates to several other patterns. Composite often uses iterators to traverse tree structures. Factory Method can create different types of iterators. Memento can be used with Iterator to capture iteration state. Visitor can work with Iterator to traverse and operate on collections. Strategy pattern is similar when iterators implement different traversal strategies.
+
+#### Real-World Applications
+
+Common uses include: collection frameworks in programming languages (Java's Iterator, C#'s IEnumerator, Python's iterator protocol), database result set cursors, file system directory traversal, tree and graph traversal algorithms, menu systems, and stream processing pipelines.
+
+#### Example Scenario
+
+In a music playlist application, you have a playlist containing songs stored as a doubly-linked list. You provide several iterators:
+- **SequentialIterator** - Traverses songs in order
+- **ShuffleIterator** - Traverses songs in random order
+- **GenreFilterIterator** - Only returns songs of a specific genre
+- **RecentlyPlayedIterator** - Returns songs ordered by play history
+
+Each iterator implements the same interface, allowing the player to use any traversal strategy without knowing the playlist's internal structure.
+
+#### Language Support
+
+Many modern languages provide built-in iterator support:
+- Java: `Iterator` interface and `Iterable` interface with `for-each` loops
+- C++: STL iterators with operator overloading
+- Python: Iterator protocol with `__iter__()` and `__next__()`
+- C#: `IEnumerator` and `IEnumerable` with `foreach`
+- JavaScript: Iterator protocol and `for...of` loops
+
+[Inference] This native language support indicates the pattern's importance and utility, though it may reduce the need to manually implement the pattern when language features suffice.
+
+#### Concurrent Modification
+
+A common challenge is handling modifications to the collection while iterating. Strategies include:
+
+**Fail-Fast** - Detect modifications and throw an exception (common in Java collections).
+
+**Snapshot** - Create a copy or snapshot of the collection at iterator creation time.
+
+**Weak Consistency** - Allow modifications but provide no guarantees about visibility (common in concurrent collections).
+
+**Version Tracking** - Track collection version numbers and validate on each access.
+
+#### Bidirectional Iterators
+
+Some iterators support bidirectional traversal with methods like `previous()` and `hasPrevious()` in addition to forward traversal. This is useful for collections like doubly-linked lists or arrays where backwards traversal is efficient.
+
+#### Filtering and Transformation
+
+Iterators can be composed to create powerful traversal pipelines:
+- **Filter Iterator** - Wraps another iterator and only returns elements matching a predicate
+- **Transform Iterator** - Wraps another iterator and transforms each element
+- **Composite Iterator** - Combines multiple iterators into a single sequence
+
+[Inference] This composability makes iterators particularly powerful for building flexible data processing pipelines, similar to streams in modern programming languages.
+
+#### Performance Considerations
+
+**Iterator Creation Overhead** - Creating iterator objects has a cost. For performance-critical code with simple arrays, direct indexed access might be faster.
+
+**Cache Locality** - Iterators that respect memory layout can improve cache performance compared to random access patterns.
+
+**Lazy Evaluation** - Iterators naturally support lazy evaluation, computing elements only when requested rather than all at once.
+
+[Unverified] The performance impact of using iterators versus direct access varies significantly by language, collection type, and compiler optimization capabilities. In many cases, modern compilers optimize iterator usage to be equivalent to direct access.
+
+#### Internal vs External Tradeoffs
+
+**External Iterators** provide more control (clients can skip elements, compare positions, use multiple iterators simultaneously) but require more code from clients.
+
+**Internal Iterators** are simpler to use (just provide a callback function) but are less flexible (can't easily break out early, harder to coordinate multiple collections, callback style can be awkward for complex logic).
+
+Modern languages often support both styles: external iterators for flexibility and internal iteration (like `forEach`, `map`, `filter`) for convenience.
+
+---
+
+### Mediator
+
+#### Overview
+
+The Mediator pattern is a behavioral design pattern that defines an object that encapsulates how a set of objects interact. It promotes loose coupling by keeping objects from referring to each other explicitly, allowing their interaction to vary independently.
+
+#### Intent
+
+The main goal is to reduce the complexity of communication between multiple objects or classes by centralizing external communications through a mediator object, thereby reducing the dependencies between communicating objects.
+
+#### Problem It Solves
+
+When a system has many objects that interact with each other, direct object-to-object communication creates tight coupling and a complex web of dependencies. Each object needs to know about many other objects, making the system difficult to understand, maintain, and modify. Changes to one object can ripple through many others. The pattern addresses this by centralizing communication logic in a mediator, reducing the number of interconnections.
+
+#### Structure
+
+The pattern involves these components:
+
+**Mediator** - Defines an interface for communicating with Colleague objects.
+
+**Concrete Mediator** - Implements cooperative behavior by coordinating Colleague objects. Knows and maintains references to its colleagues.
+
+**Colleague Classes** - Each Colleague class knows its Mediator object. Colleagues communicate with each other only through the mediator rather than directly.
+
+#### How It Works
+
+Instead of objects communicating directly with each other, they send messages to the mediator. The mediator receives these messages and decides which objects should be notified and what actions should be taken. Colleagues only know about the mediator, not about other colleagues. When a colleague's state changes or it needs to interact with others, it notifies the mediator. The mediator then coordinates the interaction by calling methods on the appropriate colleagues.
+
+#### Implementation Example Context
+
+Consider a dialog box with multiple UI controls (text fields, checkboxes, buttons, dropdown lists). When a user selects a country from a dropdown, the state code field might be enabled or disabled, phone format might change, and submit button might be enabled. Without a mediator, each control would need references to all others it affects, creating tight coupling. With a mediator (DialogMediator), each control only notifies the mediator of changes. The mediator contains the coordination logic and updates other controls accordingly.
+
+#### Advantages
+
+The pattern provides several benefits: reduces coupling between colleagues by eliminating direct references, centralizes control logic making it easier to understand and modify, limits subclassing (behavior changes by creating new mediators rather than new colleague subclasses), simplifies object protocols (many-to-many relationships become one-to-many), and makes collaboration between objects more explicit and easier to understand.
+
+#### Disadvantages
+
+The main challenges include: the mediator can become a complex monolithic class containing too much logic (a "god object"), potentially creating a new tight coupling between the mediator and colleagues, and difficulty in reusing colleague classes with different mediators since they're often designed for specific mediators.
+
+#### When to Use
+
+Apply the Mediator pattern when a set of objects communicate in complex but well-defined ways and the resulting interdependencies are unstructured and difficult to understand, when reusing an object is difficult because it refers to and communicates with many other objects, when behavior distributed between several classes should be customizable without extensive subclassing, or when you want to centralize complex communications and control logic.
+
+#### Design Considerations
+
+**Mediator Complexity** - As the mediator takes on more responsibility, it can become overly complex. Balance centralization with keeping the mediator manageable. Consider splitting large mediators into smaller, more focused ones.
+
+**Colleague-Mediator Communication** - Colleagues need to communicate with the mediator efficiently. Common approaches include passing the colleague reference so the mediator can query it, or passing relevant event data directly.
+
+**Abstract vs Concrete Mediator** - You can define an abstract mediator interface if you need multiple mediator implementations, or use a concrete mediator directly for simpler cases.
+
+**Observer Pattern Integration** - The mediator often implements Observer pattern, with colleagues as subjects that notify the mediator of changes.
+
+#### Relationship to Other Patterns
+
+The Mediator pattern relates to several other patterns. Facade is similar but centralizes access to subsystems rather than coordination between peers, and communication is one-way (clients to facade) rather than bidirectional. Observer handles distribution of communication where mediators handle centralized coordination. Chain of Responsibility passes requests along a chain, while Mediator routes them centrally. Command can represent requests sent to the mediator. Colleague objects can use Strategy pattern for different behaviors.
+
+#### Real-World Applications
+
+Common uses include: GUI frameworks (dialog boxes, form validation, coordinating widget interactions), air traffic control systems (coordinating multiple aircraft), chat rooms (routing messages between users), workflow engines (coordinating tasks and participants), smart home systems (coordinating devices and sensors), multiplayer game lobbies (coordinating player actions), and model-view-controller architectures (controller as mediator).
+
+#### Example Scenario
+
+In an airport air traffic control system, aircraft are colleagues and the control tower is the mediator. Aircraft don't communicate directly with each other to coordinate landing and takeoff. Instead, each aircraft communicates with the tower, requesting permission to land or take off. The tower (mediator) maintains awareness of all aircraft positions and states, coordinates their movements, grants permissions, and ensures safe separation. This centralized coordination prevents conflicts and simplifies the aircraft's logic - each plane only needs to talk to the tower, not track all other aircraft.
+
+#### Mediator vs Facade Comparison
+
+**Mediator** - Coordinates bidirectional communication between colleagues who know about the mediator. Colleagues actively participate in interactions. Focus is on decoupling peer objects.
+
+**Facade** - Provides a simplified interface to a subsystem. Communication is typically one-way from clients to the facade. Subsystem objects don't know about the facade. Focus is on simplifying access to complex subsystems.
+
+[Inference] While structurally similar (both centralize interactions), their intents and communication patterns differ significantly.
+
+#### Communication Strategies
+
+**Direct Mediator Knowledge** - Colleagues hold explicit references to the mediator. Simple but creates coupling to the mediator interface.
+
+**Event-Based** - Colleagues fire events that the mediator listens to. More decoupled but may require an event infrastructure.
+
+**Registration** - Colleagues register with the mediator, which then calls them back. Allows dynamic configuration but adds complexity.
+
+#### Avoiding God Objects
+
+A common pitfall is the mediator becoming a "god object" that knows and controls everything. Strategies to avoid this:
+
+**Limit Scope** - Keep mediators focused on specific interaction domains.
+
+**Delegate Complexity** - Have the mediator delegate to helper objects rather than implementing all logic itself.
+
+**Multiple Mediators** - Use several smaller mediators instead of one large one.
+
+**Clear Responsibilities** - Mediators should coordinate, not implement business logic that belongs in colleagues.
+
+#### Example Scenario: Chat Room
+
+In a chat application, users (colleagues) send messages through a chat room (mediator). When a user sends a message, they call `chatRoom.sendMessage(message, sender)`. The mediator determines who should receive the message (all users, specific user, users in a channel) and delivers it by calling `user.receiveMessage(message, sender)` on each recipient. Users don't maintain lists of other users or handle message routing - the mediator handles all coordination.
+
+#### Colleague Independence
+
+[Inference] A key benefit is that colleagues can be developed, tested, and understood independently. A text field doesn't need to know about the submit button or the dropdown list. This independence makes the codebase more modular and maintainable, though at the cost of making the mediator more complex.
+
+#### When Mediator May Not Help
+
+The pattern may not be appropriate when:
+- Only two objects interact (direct communication is simpler)
+- Interactions are simple and unlikely to change
+- Objects don't actually need to be decoupled
+- The coordination logic is minimal
+
+[Unverified] Overuse of the Mediator pattern can introduce unnecessary indirection and complexity when simpler direct communication would suffice.
+
+#### Testing Considerations
+
+The pattern can simplify testing in some ways but complicate it in others:
+
+**Easier** - Colleagues can be tested in isolation by providing mock mediators. Interaction logic is centralized in one place.
+
+**Harder** - The mediator itself may become complex to test if it coordinates many colleagues. Integration testing is still needed to verify the full interaction.
+
+#### Mediator in Modern Frameworks
+
+Many modern frameworks use mediator-like patterns:
+- Message buses and event aggregators in frontend frameworks
+- Redux store coordinating React components
+- Service buses in microservices architectures
+- Pub/sub systems for distributed coordination
+
+[Inference] These modern interpretations often extend the basic pattern with additional features like message queuing, persistence, and distributed communication.
+
+---
+
+### Memento
+
+#### Overview
+
+The Memento pattern is a behavioral design pattern that allows you to capture and externalize an object's internal state without violating encapsulation, so that the object can be restored to this state later. It provides the ability to implement undo mechanisms and state snapshots.
+
+#### Intent
+
+The main goal is to capture an object's internal state so it can be restored later, while keeping the state implementation details private and maintaining encapsulation boundaries.
+
+#### Problem It Solves
+
+When you need to save and restore an object's state (for undo/redo, checkpoints, or snapshots), directly exposing the object's internal state violates encapsulation. Allowing external objects to access private fields breaks the object's interface and creates dependencies on its implementation. The pattern addresses this by encapsulating the saved state in a separate memento object that only the originator can access fully.
+
+#### Structure
+
+The pattern involves these components:
+
+**Originator** - The object whose state needs to be saved and restored. Creates a memento containing a snapshot of its current state and uses the memento to restore its state.
+
+**Memento** - Stores the internal state of the Originator. Protects against access by objects other than the originator (ideally through language features like nested classes or friend declarations).
+
+**Caretaker** - Responsible for keeping the memento safe. Never operates on or examines the contents of a memento. Only stores and retrieves mementos.
+
+#### How It Works
+
+When the originator needs to save its state, it creates a memento object containing a snapshot of its current internal state. The caretaker stores this memento without knowing or accessing its contents. Later, when state restoration is needed, the caretaker passes the memento back to the originator, which extracts the state information and restores itself. The memento's internal structure is opaque to the caretaker, preserving encapsulation.
+
+#### Implementation Example Context
+
+Consider a text editor with undo functionality. The editor (originator) creates a memento before each editing operation, capturing the current text content, cursor position, and selection state. A history manager (caretaker) stores these mementos in a stack. When the user presses undo, the history manager retrieves the previous memento and passes it to the editor, which restores its state. The history manager never directly accesses or modifies the text content - it only stores and retrieves opaque memento objects.
+
+#### Advantages
+
+The pattern provides several benefits: preserves encapsulation boundaries by not exposing internal state structure, simplifies the originator by delegating state storage to the caretaker, allows multiple snapshots to be maintained simultaneously, provides a clean way to implement undo/redo and checkpoint mechanisms, and isolates state management concerns.
+
+#### Disadvantages
+
+The main challenges include: potential memory overhead if mementos are large or numerous, costs of copying state can be expensive for large objects, caretakers might accumulate many mementos consuming significant memory, and lifecycle management complexity if mementos contain references to other objects.
+
+#### When to Use
+
+Apply the Memento pattern when you need to save and restore an object's state, when directly exposing the state would violate encapsulation, when you need to implement undo/redo functionality, when you need to create checkpoints or snapshots for rollback, or when you want to preserve historical states of an object.
+
+#### Encapsulation Techniques
+
+Different languages provide different mechanisms to protect memento contents:
+
+**Nested Classes** (Java, C#) - Make Memento a private nested class of Originator. Only the Originator can access its internals.
+
+**Friend Classes** (C++) - Declare Originator as a friend of Memento, granting it privileged access.
+
+**Interfaces** - Provide the Caretaker with a narrow interface (or marker interface) that doesn't expose memento internals, while the Originator uses the full interface.
+
+**Immutability** - Make mementos immutable after creation to prevent tampering.
+
+#### Design Considerations
+
+**What to Store** - Mementos can store complete state (full snapshots) or incremental changes (deltas). Full snapshots are simpler but consume more memory. Deltas are more efficient but more complex to implement and apply.
+
+**When to Create Mementos** - Create them before operations that might need reversal, at regular intervals for checkpoints, or on-demand when requested by users.
+
+**Memory Management** - Consider limiting the number of stored mementos, using compression for large states, or employing lazy copying strategies.
+
+**Immutability** - Mementos should typically be immutable to prevent accidental or malicious modification.
+
+#### Relationship to Other Patterns
+
+The Memento pattern relates to several other patterns. Command can use Memento to store state for undo operations - the command stores a memento before execution and uses it to undo. Iterator can use Memento to capture iteration state. Prototype is similar in copying objects but focuses on cloning for creation rather than state preservation. Caretaker often acts as a Facade to the memento storage system.
+
+#### Real-World Applications
+
+Common uses include: text editors (undo/redo functionality), graphics editors (layer states, operation history), database transactions (savepoints and rollbacks), game save systems (checkpoints, quick saves), version control systems (commit history), workflow systems (process state snapshots), simulation systems (state checkpoints), and debugging tools (program state capture).
+
+#### Example Scenario
+
+In a chess game, after each move, the game state (originator) creates a memento containing the board position, captured pieces, whose turn it is, castling rights, en passant state, and move history. The game manager (caretaker) stores these mementos in a list. When a player wants to undo a move, the manager retrieves the previous memento and passes it to the game state, which restores the board to that position. The manager never directly manipulates the chess board or understands chess rules - it just stores and retrieves opaque state snapshots.
+
+#### Incremental vs Full Snapshots
+
+**Full Snapshots** - Store complete state in each memento. Simple to implement and restore but memory-intensive. Suitable when state is small or snapshots are infrequent.
+
+**Incremental (Delta)** - Store only changes from the previous state. Memory-efficient but requires keeping a chain of mementos and applying changes sequentially to restore. More complex but suitable for large states with small changes.
+
+**Hybrid** - Combine both approaches: full snapshots at intervals with deltas in between. Balances memory efficiency with restoration speed.
+
+[Inference] The choice depends on the tradeoff between memory consumption, restoration speed, and implementation complexity for your specific use case.
+
+#### Memento Lifecycle
+
+**Creation** - Originator creates memento, packaging its current state.
+
+**Storage** - Caretaker receives and stores memento, often in a collection like a stack or list.
+
+**Retrieval** - Caretaker provides memento back to originator when needed.
+
+**Restoration** - Originator extracts state from memento and updates itself.
+
+**Disposal** - Old mementos are removed to free memory, often using policies like keeping only N most recent states.
+
+#### Example Scenario: Graphics Editor
+
+In a graphics application, the canvas (originator) supports operations like drawing shapes, applying filters, and transforming objects. Before each operation, it creates a memento capturing all layer data, object positions, styles, and settings. An UndoManager (caretaker) maintains two stacks: undo and redo. Each operation pushes a memento onto the undo stack. When the user clicks undo, the manager pops from undo, pushes to redo, and restores the canvas state. The manager has no knowledge of pixels, layers, or filters - it only manages opaque memento objects.
+
+#### Serialization Considerations
+
+Mementos often need to be serialized for:
+- Saving to disk (persistent undo/redo across sessions)
+- Sending over networks (distributed systems)
+- Long-term archival (document version history)
+
+This adds complexity around versioning, backward compatibility, and handling references to non-serializable objects.
+
+[Unverified] Serialization can significantly increase implementation complexity, especially when dealing with object graphs, circular references, and version migration as the originator's internal structure evolves.
+
+#### Memory Management Strategies
+
+**Limited History** - Keep only the N most recent mementos, discarding older ones.
+
+**Time-Based Expiry** - Remove mementos older than a certain age.
+
+**Compression** - Compress memento data, especially for infrequently accessed historical states.
+
+**Lazy Copying** - Use copy-on-write techniques to share unchanged portions of state between mementos.
+
+**External Storage** - Store large mementos on disk rather than in memory, keeping only metadata in memory.
+
+#### Multi-Level Undo
+
+Some systems support undo at multiple levels:
+- Document-level undo (text changes)
+- Application-level undo (window positions, settings)
+- System-level undo (file operations)
+
+Each level might use its own caretaker and memento storage, coordinated by higher-level logic.
+
+#### Memento vs Command Pattern for Undo
+
+Both patterns can implement undo, but differently:
+
+**Memento** - Stores complete state snapshots. Simple conceptually. Each undo restores a saved state. Works well when operations don't naturally reverse.
+
+**Command** - Stores operations that can be reversed. Each command knows how to undo itself. More memory-efficient when operations are small but state is large.
+
+**Combined** - Commands can use mementos internally to store state needed for reversal. This provides the best of both approaches.
+
+[Inference] The choice depends on whether your operations are easily reversible (favor Command) or whether state is simpler to capture than operation reversal logic (favor Memento).
+
+#### Privacy and Security
+
+Since mementos contain potentially sensitive state information:
+- Consider encryption for stored mementos
+- Implement access controls in the caretaker
+- Be careful with memento serialization and transmission
+- Ensure proper cleanup to prevent state leakage
+
+#### Testing Benefits
+
+The pattern can simplify testing by allowing easy setup of specific object states:
+- Create an originator
+- Configure it to a desired state
+- Capture a memento
+- Use this memento to quickly initialize test cases
+
+This is particularly useful for testing complex scenarios or edge cases that are difficult to set up manually.
+
+---
+
+### State Pattern
+
+#### Overview
+
+The State pattern is a behavioral design pattern that allows an object to alter its behavior when its internal state changes. The object appears to change its class by delegating state-specific behavior to separate state objects.
+
+#### Intent
+
+The main goal is to allow an object to change its behavior based on its internal state, making state transitions explicit and eliminating complex conditional logic by distributing state-specific behavior across separate classes.
+
+#### Problem It Solves
+
+When an object's behavior depends on its state and it must change behavior at runtime based on that state, using conditional statements (if/else or switch) throughout the object's methods leads to complex, hard-to-maintain code. As more states and transitions are added, the conditionals grow unwieldy. The pattern addresses this by representing each state as a separate class and delegating state-specific behavior to the current state object.
+
+#### Structure
+
+The pattern involves these components:
+
+**Context** - Defines the interface of interest to clients. Maintains an instance of a ConcreteState subclass that represents the current state. Delegates state-specific requests to the current state object.
+
+**State** - Defines an interface for encapsulating the behavior associated with a particular state of the Context.
+
+**Concrete State** - Each subclass implements behavior associated with a state of the Context. Contains logic for transitioning to other states.
+
+#### How It Works
+
+The context maintains a reference to a state object that represents its current state. When the context receives a request, it delegates the request to the current state object. The state object handles the request according to its specific behavior and may change the context's state by replacing the state object with a different one. From the client's perspective, the context's behavior changes even though it's the same object.
+
+#### Implementation Example Context
+
+Consider a TCP connection that can be in states like Closed, Listening, Established, or Closing. Each state handles operations like open(), close(), send(), and acknowledge() differently. Instead of having the TCPConnection class filled with conditionals checking the current state, each state is a separate class (ClosedState, ListeningState, etc.). When someone calls connection.send(), the context delegates to currentState.send(). The ClosedState might throw an error, while EstablishedState transmits the data. State transitions happen by swapping the state object.
+
+#### Advantages
+
+The pattern provides several benefits: eliminates complex conditional logic, makes state transitions explicit and easy to understand, localizes state-specific behavior in dedicated classes, makes adding new states easier without modifying existing code, improves maintainability by separating concerns, and makes the state machine structure clear and explicit.
+
+#### Disadvantages
+
+The main challenges include: increased number of classes (one per state), potential overhead from object creation during state transitions, can be overkill for simple state machines with few states, and the distribution of behavior across multiple classes can make the overall flow harder to understand initially.
+
+#### When to Use
+
+Apply the State pattern when an object's behavior depends on its state and it must change behavior at runtime based on that state, when operations have large conditional statements that depend on the object's state, when state-specific behavior is complex and would clutter the main class, or when you want to make state transitions explicit rather than implicit through variable checks.
+
+#### State vs Strategy Pattern
+
+These patterns have similar structures but different intents:
+
+**State** - Represents different states of an object. State transitions happen dynamically based on the object's lifecycle. States often know about each other and can trigger transitions. Focus is on changing behavior based on internal state.
+
+**Strategy** - Represents different algorithms or behaviors. Usually set once and rarely changed. Strategies are independent and don't know about each other. Focus is on making algorithms interchangeable.
+
+[Inference] While structurally similar (both use composition and polymorphism), State is about being in different states over time, while Strategy is about choosing between different approaches.
+
+#### Design Considerations
+
+**Who Defines State Transitions** - Transitions can be defined in the Context (centralized control) or in the State classes themselves (decentralized, states know about each other). Centralized control keeps states independent but requires the context to know all states. Decentralized control is more flexible but creates dependencies between state classes.
+
+**State Object Creation** - State objects can be created on-demand during transitions, pre-created and reused (if stateless), or maintained in a pool. Reusing stateless state objects is more efficient.
+
+**State Sharing** - If state objects have no instance-specific data (only behavior), they can be shared across multiple contexts using Flyweight pattern.
+
+**State Context Access** - States often need to access context data or trigger state changes. This can be done by passing the context as a parameter to state methods or having states store a reference to the context.
+
+#### Relationship to Other Patterns
+
+The State pattern relates to several other patterns. Strategy has similar structure but different intent - State is for changing behavior based on state while Strategy is for algorithm selection. Flyweight can be used to share stateless state objects. Singleton can ensure only one instance of each state exists if states are stateless. Bridge separates interface from implementation similarly, but State focuses on state-dependent behavior. Iterator's different traversal strategies could be implemented as states.
+
+#### Real-World Applications
+
+Common uses include: network protocol implementations (connection states), order processing systems (pending, confirmed, shipped, delivered), document workflows (draft, review, approved, published), vending machines (idle, has money, dispensing), media players (stopped, playing, paused), authentication systems (logged out, logged in, locked), game character states (idle, walking, jumping, attacking), and UI component states (enabled, disabled, focused).
+
+#### Example Scenario
+
+In a vending machine, states include NoMoney, HasMoney, Dispensing, and SoldOut. When a user inserts money in the NoMoney state, the machine transitions to HasMoney. In HasMoney state, selecting a product transitions to Dispensing. After dispensing, it returns to NoMoney or SoldOut depending on inventory. Each state handles operations differently: insertMoney() in HasMoney state returns the money (already have money), while in NoMoney state it accepts and transitions. The vending machine context delegates all operations to the current state object.
+
+#### State Transition Approaches
+
+**Context Controls Transitions** - The context examines the result or state after delegating to the state object and decides whether to transition.
+```
+handleRequest() {
+  result = currentState.handle(this)
+  if (result == SUCCESS) {
+    setState(nextState)
+  }
+}
+```
+
+**States Control Transitions** - State objects directly change the context's state.
+```
+class ConcreteStateA {
+  handle(context) {
+    // do work
+    context.setState(new ConcreteStateB())
+  }
+}
+```
+
+**Explicit Transition Methods** - Provide explicit methods for state transitions that states can call.
+```
+context.transitionToStateB()
+```
+
+#### State Machine Representation
+
+The pattern essentially implements a state machine where:
+- States are the nodes
+- Transitions are the edges
+- Operations trigger transitions based on current state and conditions
+
+This makes the pattern particularly suitable for implementing finite state machines (FSMs).
+
+#### Example Scenario: Document Workflow
+
+A document goes through states: Draft, InReview, Approved, Published. Each state handles operations differently:
+- **Draft**: edit() modifies the document, submit() transitions to InReview, publish() is invalid
+- **InReview**: edit() is restricted, approve() transitions to Approved, reject() returns to Draft
+- **Approved**: edit() is invalid, publish() transitions to Published, revoke() returns to Draft
+- **Published**: all modification operations are invalid, archive() moves to archived state
+
+The document context delegates all operations to the current state. Reviewers can only approve when in InReview state. The state classes enforce these rules naturally without complex conditionals in the document class.
+
+#### Hierarchical State Machines
+
+For complex systems, states can be organized hierarchically:
+- Superstates contain substates
+- Common behavior is defined in superstates
+- Substates override or extend superstate behavior
+- Transitions can occur at any level
+
+[Inference] This addresses the limitation of flat state machines becoming unwieldy with many states by introducing structure and inheritance, though it adds implementation complexity.
+
+#### State Entry/Exit Actions
+
+States often need to perform actions when entering or exiting:
+```
+class ConcreteState {
+  onEnter(context) {
+    // Initialize resources, start timers, etc.
+  }
+  
+  onExit(context) {
+    // Cleanup resources, stop timers, etc.
+  }
+  
+  handle(context) {
+    // Main state behavior
+  }
+}
+```
+
+This ensures proper initialization and cleanup during state transitions.
+
+#### Null State Pattern
+
+Consider using a Null State object that represents an invalid or undefined state, providing safe default behavior rather than null references. This eliminates null checks throughout the code.
+
+#### Testing Benefits
+
+The pattern simplifies testing by allowing each state to be tested independently:
+- Test each state class in isolation
+- Mock the context for state unit tests
+- Test state transitions separately
+- Verify correct behavior for each operation in each state
+
+This modular structure makes testing more thorough and maintainable.
+
+#### Guard Conditions
+
+State transitions often have conditions (guards) that must be met:
+```
+class HasMoneyState {
+  selectProduct(context, product) {
+    if (product.price <= context.balance) {
+      // dispense and transition
+    } else {
+      // insufficient funds, stay in current state
+    }
+  }
+}
+```
+
+These guards determine whether transitions occur, implementing conditional state machines.
+
+#### Performance Considerations
+
+**State Object Creation** - Creating new state objects on each transition can be expensive. Consider:
+- Reusing stateless state objects (Flyweight pattern)
+- Pre-creating state objects at initialization
+- Lazy initialization with caching
+
+**Delegation Overhead** - Each operation requires delegation to the state object. For performance-critical code, this overhead might matter.
+
+[Unverified] In most applications, the overhead of delegation and state object management is negligible compared to the benefits of cleaner, more maintainable code. Optimize only if profiling indicates state management is a bottleneck.
+
+#### When State Pattern May Not Help
+
+The pattern may not be appropriate when:
+- Only a few simple states exist (conditionals might be simpler)
+- States don't have significantly different behavior
+- State transitions are trivial or nonexistent
+- The overhead of multiple classes outweighs the benefits
+
+[Inference] For 2-3 simple states with minimal behavior differences, simple boolean flags or enums with conditionals may be more appropriate than the full pattern.
+
+---
+
+### Template Method Pattern
+
+#### Overview
+
+The Template Method pattern is a behavioral design pattern that defines the skeleton of an algorithm in a base class, allowing subclasses to override specific steps of the algorithm without changing its overall structure.
+
+#### Intent
+
+The main goal is to define the invariant parts of an algorithm once in a base class and let subclasses implement the varying parts, promoting code reuse while allowing customization of specific steps.
+
+#### Problem It Solves
+
+When you have multiple classes that implement similar algorithms with minor variations, duplicating the common parts across all classes violates the DRY (Don't Repeat Yourself) principle. Changes to the common algorithm structure require modifications in multiple places. The pattern addresses this by extracting the common algorithm structure into a base class template method, with variable parts implemented by subclasses.
+
+#### Structure
+
+The pattern involves these components:
+
+**Abstract Class** - Defines the template method that contains the algorithm skeleton. Declares abstract or hook methods that subclasses can override to customize specific steps.
+
+**Concrete Class** - Implements the abstract operations defined in the Abstract Class to carry out subclass-specific steps of the algorithm.
+
+#### How It Works
+
+The abstract class defines a template method that calls a series of steps in a specific order. Some steps are implemented in the abstract class (invariant parts), while others are declared as abstract methods that subclasses must implement (variant parts). The template method controls the algorithm flow and cannot be overridden (often marked as final). Subclasses override only the specific steps they need to customize, while the overall algorithm structure remains unchanged.
+
+#### Implementation Example Context
+
+Consider a data mining application that analyzes documents in different formats (PDF, Word, CSV). The overall process is the same: open file, extract data, parse data, analyze data, send report, close file. The template method defines this sequence. Subclasses override specific steps like openFile() and extractData() with format-specific implementations, while the analysis and reporting logic remains in the base class.
+
+#### Advantages
+
+The pattern provides several benefits: eliminates code duplication by extracting common code into the base class, enforces a consistent algorithm structure across subclasses, provides control over which parts can be customized through the use of hooks, makes the algorithm easier to understand and maintain by centralizing the structure, and follows the Hollywood Principle ("Don't call us, we'll call you") where the base class calls subclass methods.
+
+#### Disadvantages
+
+The main challenges include: can be limiting when subclasses need to change the algorithm structure itself, increased number of classes if many variations exist, can be harder to understand the full flow since it's spread across multiple classes, maintenance can be difficult if the template method becomes too complex, and violates the Liskov Substitution Principle if subclasses change expected behavior significantly.
+
+#### When to Use
+
+Apply the Template Method pattern when you have multiple classes implementing similar algorithms with minor variations, when you want to control the extension points in an algorithm by allowing subclasses to override only specific steps, when you want to avoid code duplication by extracting common behavior into a single location, or when you want to enforce a particular algorithm structure across multiple implementations.
+
+#### Types of Operations
+
+The template method typically calls several types of operations:
+
+**Concrete Operations** - Implemented in the abstract class and shared by all subclasses. These are the invariant parts.
+
+**Abstract Operations** - Declared in the abstract class but must be implemented by subclasses. These are the required variant parts.
+
+**Hook Operations** - Provided with default (often empty) implementations in the abstract class. Subclasses may override them but are not required to. These are optional customization points.
+
+**Template Method** - The method itself that defines the algorithm skeleton. Usually marked as final to prevent overriding.
+
+#### Hook Methods
+
+Hooks are operations with default behavior that subclasses can override if needed. They provide optional extension points:
+
+```
+class AbstractClass {
+  templateMethod() {
+    step1()
+    step2()
+    if (shouldDoStep3()) {  // Hook
+      step3()
+    }
+    step4()
+  }
+  
+  shouldDoStep3() {
+    return true  // Default hook implementation
+  }
+}
+```
+
+Hooks make the pattern more flexible by allowing subclasses to opt into additional behavior without being forced to implement every variation.
+
+#### Design Considerations
+
+**Granularity of Steps** - Decide how fine-grained the steps should be. Too many small steps make subclassing tedious. Too few large steps reduce flexibility.
+
+**Access Control** - Template methods are typically public, while steps called by the template method are often protected to prevent external calls.
+
+**Final Template Method** - In languages that support it, mark the template method as final to prevent subclasses from changing the algorithm structure.
+
+**Minimize Abstract Operations** - Too many required abstract methods make subclassing difficult. Use hooks with defaults when possible.
+
+**Naming Conventions** - Use consistent naming for hook methods (like "doX" or "shouldX") to make their purpose clear.
+
+#### Relationship to Other Patterns
+
+The Template Method pattern relates to several other patterns. Strategy is similar but uses composition instead of inheritance - Strategy can change the entire algorithm at runtime, while Template Method sets the structure at class definition time. Factory Method is often called by template methods to create objects needed by the algorithm. Hook methods can use Observer pattern to notify interested parties. Template Method is a fundamental pattern that appears in many frameworks as the basis for extension.
+
+#### Real-World Applications
+
+Common uses include: framework design (providing extension points for applications), testing frameworks (setUp/tearDown methods around test execution), web frameworks (request handling pipelines), game engines (game loop structure with customizable update/render), data processing pipelines (extract-transform-load patterns), GUI frameworks (widget rendering and event handling), build systems (compile-link-package sequences), and ORM frameworks (CRUD operation templates).
+
+#### Example Scenario
+
+In a beverage-making application, the abstract class defines the template method prepareBeverage():
+1. boilWater() - concrete method (same for all)
+2. brew() - abstract method (tea vs coffee differ)
+3. pourInCup() - concrete method (same for all)
+4. addCondiments() - abstract method (sugar/lemon vs milk/sugar)
+5. customerWantsCondiments() - hook method (default true)
+
+Tea and Coffee subclasses implement brew() and addCondiments() differently. A customer can subclass further to override customerWantsCondiments() to skip condiments. The overall process stays consistent while specific steps vary.
+
+#### Hollywood Principle
+
+The pattern embodies the Hollywood Principle: "Don't call us, we'll call you." The high-level component (abstract class) calls low-level components (subclass methods), not the other way around. This inverts the typical control flow and reduces coupling between components.
+
+#### Template Method vs Strategy
+
+**Template Method**:
+- Uses inheritance for variation
+- Algorithm structure fixed at compile time
+- Subclasses override specific steps
+- Better when algorithm structure is stable
+- More static, less flexible
+
+**Strategy**:
+- Uses composition for variation
+- Algorithm can be swapped at runtime
+- Strategies are complete algorithms
+- Better when entire algorithm varies
+- More dynamic, more flexible
+
+[Inference] Choose Template Method when you have a stable algorithm structure with variable steps, and Strategy when you need to swap entire algorithms or change behavior at runtime.
+
+#### Example Scenario: Unit Testing Framework
+
+Testing frameworks commonly use this pattern. The base test class defines:
+```
+class TestCase {
+  run() {  // Template method
+    setUp()      // Hook - optional setup
+    try {
+      runTest()    // Abstract - the actual test
+    } finally {
+      tearDown()   // Hook - optional cleanup
+    }
+  }
+  
+  setUp() { }       // Hook with empty default
+  tearDown() { }    // Hook with empty default
+  abstract runTest()  // Subclass must implement
+}
+```
+
+Specific test cases extend TestCase and implement runTest(). They can optionally override setUp/tearDown for test-specific initialization and cleanup. The run() method ensures proper test execution flow.
+
+#### Inversion of Control
+
+The pattern is a form of Inversion of Control (IoC). Instead of subclasses controlling the flow and calling base class methods when needed, the base class controls the flow and calls subclass methods at appropriate points. This gives the framework (base class) control while still allowing customization.
+
+#### Primitive Operations
+
+Primitive operations are the basic steps that template methods compose. Guidelines for designing them:
+- Keep them focused on a single responsibility
+- Make them cohesive and at a similar level of abstraction
+- Provide meaningful names that describe what they do
+- Consider whether each should be abstract, concrete, or a hook
+
+#### Multiple Template Methods
+
+A single class can have multiple template methods for different algorithms:
+```
+class DataProcessor {
+  processOnline() {  // Template method 1
+    connect()
+    fetchData()
+    processData()
+    sendResults()
+    disconnect()
+  }
+  
+  processBatch() {  // Template method 2
+    loadFromFile()
+    processData()
+    saveToFile()
+  }
+}
+```
+
+Both template methods can call some shared steps (processData) while following different overall flows.
+
+#### Pre and Post Conditions
+
+Template methods can enforce pre and post conditions around variable steps:
+```
+class AbstractClass {
+  templateMethod() {
+    validatePreconditions()
+    doOperation()  // Abstract
+    validatePostconditions()
+  }
+}
+```
+
+This ensures subclasses operate within defined constraints even when customizing behavior.
+
+#### Example Scenario: Game AI
+
+In a game AI system, different enemy types use the same decision-making structure:
+```
+class EnemyAI {
+  takeTurn() {  // Template method
+    assessSituation()
+    if (shouldAttack()) {  // Hook
+      selectTarget()  // Abstract
+      executeAttack()  // Abstract
+    } else {
+      selectMovement()  // Abstract
+      executeMovement()  // Abstract
+    }
+  }
+  
+  shouldAttack() {  // Hook with default logic
+    return player.isInRange() && hasAmmo()
+  }
+}
+```
+
+MeleeEnemy and RangedEnemy override the abstract methods with type-specific implementations. Boss enemies might override shouldAttack() for more complex decision logic. The overall turn structure remains consistent.
+
+#### Advantages for Framework Design
+
+The pattern is particularly valuable in framework design:
+- Frameworks define the overall flow and extension points
+- Applications extend the framework by implementing specific steps
+- Ensures applications follow framework conventions
+- Reduces the learning curve (developers only implement specific methods)
+- Maintains consistency across different applications using the framework
+
+#### Limitations
+
+The pattern has inherent limitations:
+- Requires inheritance, which creates tight coupling
+- Subclasses are dependent on base class implementation details
+- Changes to template method affect all subclasses
+- Cannot easily change algorithm structure in subclasses
+- Multiple inheritance issues if subclass needs to extend multiple templates
+
+[Inference] These limitations make the pattern less suitable in languages or contexts where composition is strongly preferred over inheritance, or when high flexibility in algorithm structure is required.
+
+#### Testing Considerations
+
+Testing template methods involves:
+- Testing the template method with different subclass implementations
+- Testing each primitive operation in isolation
+- Verifying the correct sequence of operations
+- Testing hook methods with default and overridden implementations
+- Ensuring subclasses properly implement abstract operations
+
+The pattern's structure naturally supports unit testing by breaking algorithms into testable steps.
+
+#### Documentation Importance
+
+Because the algorithm is split across base and derived classes, clear documentation is crucial:
+- Document the template method's overall purpose and flow
+- Clearly specify contracts for abstract methods
+- Explain when and why to override hooks
+- Describe any ordering or dependency requirements
+- Provide examples of proper subclass implementation
+
+[Unverified] Without good documentation, developers may struggle to understand how to properly extend template method classes, potentially leading to incorrect implementations or misuse of the pattern.
+
+---
+
+### Visitor Pattern
+
+#### Overview
+
+The Visitor pattern is a behavioral design pattern that lets you separate algorithms from the objects on which they operate by moving the algorithm logic into separate visitor classes. It allows adding new operations to existing object structures without modifying those structures.
+
+#### Intent
+
+The main goal is to define a new operation on a collection of objects without changing the classes of the objects themselves, enabling you to add functionality while keeping the object structure stable.
+
+#### Problem It Solves
+
+When you need to perform various unrelated operations on objects in a complex structure (like a composite hierarchy), adding these operations directly to the object classes clutters them with unrelated functionality and violates the Single Responsibility Principle. As new operations are needed, you must modify every class. The pattern addresses this by extracting operations into separate visitor classes that can traverse the structure and perform operations on each element.
+
+#### Structure
+
+The pattern involves these components:
+
+**Visitor** - Declares a visit method for each type of Concrete Element in the object structure. The method name and signature identify the class being visited.
+
+**Concrete Visitor** - Implements each visit method declared by Visitor. Each operation represents a specific algorithm or behavior to apply to elements.
+
+**Element** - Defines an accept method that takes a visitor as an argument.
+
+**Concrete Element** - Implements the accept method, typically by calling the visitor method corresponding to its own class.
+
+**Object Structure** - Can enumerate its elements and may provide a high-level interface for visitors to traverse the structure.
+
+#### How It Works
+
+Each element in the object structure implements an `accept(visitor)` method. When a visitor needs to perform operations, it traverses the structure. For each element, the visitor calls `element.accept(this)`. The element's accept method then calls back to the appropriate visit method on the visitor: `visitor.visitConcreteElementA(this)`. This double dispatch mechanism ensures the correct visitor method is called based on both the visitor type and element type. The visitor can then perform its operation using the element's interface.
+
+#### Double Dispatch
+
+The pattern uses double dispatch to determine which method to execute:
+1. First dispatch: Based on the element type (element.accept)
+2. Second dispatch: Based on the visitor type (visitor.visitX)
+
+This allows the operation to be selected based on both the runtime types of the visitor and the element, something most languages don't support directly.
+
+#### Implementation Example Context
+
+Consider a compiler that processes an abstract syntax tree (AST) with different node types (VariableNode, LiteralNode, OperatorNode). You need multiple operations: type checking, code generation, optimization, and pretty printing. Instead of adding methods for each operation to every node class, you create visitor classes: TypeCheckVisitor, CodeGeneratorVisitor, OptimizerVisitor, PrettyPrinter. Each visitor implements visit methods for each node type. The AST remains stable while new operations are added as new visitors.
+
+#### Advantages
+
+The pattern provides several benefits: makes adding new operations easy (just create a new visitor), groups related operations in a single visitor class, separates operations from the object structure they operate on, allows operations to accumulate state as they traverse the structure, and can work across disparate object hierarchies.
+
+#### Disadvantages
+
+The main challenges include: adding new element types is difficult (requires updating all visitor interfaces and implementations), breaks encapsulation by requiring elements to expose enough information for visitors, the double dispatch mechanism can be confusing, circular dependencies between visitors and elements, and increased complexity from the additional classes and indirection.
+
+#### When to Use
+
+Apply the Visitor pattern when an object structure contains many classes with differing interfaces and you want to perform operations that depend on their concrete classes, when many distinct and unrelated operations need to be performed on objects in a structure and you want to avoid cluttering classes with these operations, when the object structure classes rarely change but you frequently need to define new operations, or when an algorithm needs to work across several classes in a hierarchy.
+
+#### Design Considerations
+
+**Element Interface Stability** - The pattern works best when the element hierarchy is stable. Adding new element types requires modifying all visitors.
+
+**Access to Element Internals** - Visitors often need access to element internals, which may require making data public or providing accessor methods, potentially breaking encapsulation.
+
+**Return Values** - Visit methods can return values, allowing visitors to accumulate results as they traverse the structure.
+
+**Traversal Control** - Decide whether the visitor, elements, or object structure controls the traversal. Each approach has different tradeoffs for flexibility and complexity.
+
+**State Accumulation** - Visitors can maintain state across visits, useful for operations that need to collect information or maintain context.
+
+#### Relationship to Other Patterns
+
+The Visitor pattern relates to several other patterns. Composite is often used with Visitor - visitors traverse composite structures to perform operations. Iterator can be used by visitors to traverse the object structure. Interpreter can use Visitor to implement operations on the abstract syntax tree. Strategy is similar but focuses on encapsulating algorithms that don't depend on the object structure. Command can represent operations as objects but doesn't use double dispatch.
+
+#### Real-World Applications
+
+Common uses include: compiler design (AST traversal for type checking, optimization, code generation), document object models (rendering, searching, validation), file system operations (calculating sizes, searching, generating reports), graphics scene graphs (rendering, hit testing, bounding box calculation), shopping cart systems (calculating totals, applying discounts, generating receipts), configuration validation, and reporting systems over complex data structures.
+
+#### Example Scenario
+
+In a graphics application, you have shapes: Circle, Rectangle, Triangle. You need operations like:
+- Calculate area
+- Export to different formats (SVG, JSON, XML)
+- Draw on screen
+- Calculate bounding box
+
+Instead of adding four methods to each shape class, you create four visitors: AreaCalculator, SVGExporter, JSONExporter, Renderer. Each visitor implements visitCircle(), visitRectangle(), visitTriangle(). Adding a new export format means creating a new visitor, not modifying shape classes.
+
+```
+class Circle {
+  accept(visitor) {
+    return visitor.visitCircle(this)
+  }
+}
+
+class AreaCalculator {
+  visitCircle(circle) {
+    return Math.PI * circle.radius * circle.radius
+  }
+  
+  visitRectangle(rectangle) {
+    return rectangle.width * rectangle.height
+  }
+}
+```
+
+#### Traversal Strategies
+
+**Visitor Controls Traversal** - The visitor explicitly navigates the structure. Gives maximum control but requires the visitor to know the structure.
+
+**Elements Control Traversal** - Each element's accept method calls accept on its children. Encapsulates structure knowledge but makes traversal order fixed.
+
+**External Iterator** - Use a separate iterator to traverse, calling accept on each element. Separates traversal from visitation logic.
+
+**Object Structure Controls** - A container object manages traversal and calls accept on each element. Centralizes traversal logic.
+
+[Inference] The choice depends on whether traversal logic should be reusable across visitors (favor external control) or whether each visitor needs custom traversal (favor visitor control).
+
+#### Accumulating State
+
+Visitors can accumulate state as they traverse:
+
+```
+class StatisticsVisitor {
+  constructor() {
+    this.totalArea = 0
+    this.shapeCount = 0
+  }
+  
+  visitCircle(circle) {
+    this.totalArea += Math.PI * circle.radius ** 2
+    this.shapeCount++
+  }
+  
+  visitRectangle(rectangle) {
+    this.totalArea += rectangle.width * rectangle.height
+    this.shapeCount++
+  }
+  
+  getAverageArea() {
+    return this.totalArea / this.shapeCount
+  }
+}
+```
+
+This allows visitors to compute aggregate information across the entire structure.
+
+#### Example Scenario: Shopping Cart
+
+In an e-commerce system, a shopping cart contains different item types: PhysicalItem, DigitalItem, ServiceItem. Operations needed:
+- Calculate total price with different tax rules
+- Generate invoice
+- Calculate shipping costs
+- Validate inventory availability
+
+Each operation is a visitor:
+
+```
+class TaxCalculatorVisitor {
+  visitPhysicalItem(item) {
+    return item.price * 0.08  // 8% sales tax
+  }
+  
+  visitDigitalItem(item) {
+    return item.price * 0.03  // 3% digital goods tax
+  }
+  
+  visitServiceItem(item) {
+    return 0  // Services not taxed
+  }
+}
+
+class ShippingCalculatorVisitor {
+  visitPhysicalItem(item) {
+    return item.weight * 0.5  // $0.50 per pound
+  }
+  
+  visitDigitalItem(item) {
+    return 0  // No shipping for digital items
+  }
+  
+  visitServiceItem(item) {
+    return 0  // No shipping for services
+  }
+}
+```
+
+New operations (like gift wrapping costs) are added by creating new visitors without modifying item classes.
+
+#### Breaking Encapsulation
+
+A common criticism is that visitors often require elements to expose internal state:
+
+```
+class Circle {
+  accept(visitor) {
+    return visitor.visitCircle(this)
+  }
+  
+  // Must expose radius for visitors
+  getRadius() {
+    return this.radius
+  }
+}
+```
+
+This can be mitigated by:
+- Providing specific accessor methods for visitor operations
+- Limiting which visitors can access which data
+- Using friend classes in languages that support them
+- Accepting some encapsulation loss as the tradeoff for extensibility
+
+[Inference] This tradeoff is fundamental to the pattern - you gain operational extensibility at the cost of some data encapsulation.
+
+#### Visitor vs Strategy
+
+**Visitor**:
+- Operates on object structures with multiple element types
+- Uses double dispatch to select the correct operation
+- Elements must support the accept method
+- Best when adding new operations to stable element hierarchies
+
+**Strategy**:
+- Encapsulates a single algorithm or behavior
+- Uses single dispatch (regular polymorphism)
+- Context doesn't need special support
+- Best when you need interchangeable algorithms
+
+#### Adding New Element Types
+
+Adding a new element type is the pattern's main weakness. It requires:
+1. Creating the new element class with accept method
+2. Adding a visitNewElement method to the Visitor interface
+3. Implementing visitNewElement in all existing concrete visitors
+
+[Unverified] For systems where element types change frequently, the overhead of updating all visitors can outweigh the benefits. In such cases, alternative approaches like the Interpreter pattern or type-based dispatching might be more suitable.
+
+#### Handling Missing Visit Methods
+
+When a visitor doesn't need to handle certain element types:
+
+**Default Implementation** - Provide empty or default implementations in the base Visitor class.
+
+**Abstract Methods** - Force all visitors to implement all visit methods (ensures completeness but creates boilerplate).
+
+**Optional Interface** - Use separate interfaces for different element subsets.
+
+**Runtime Checking** - Check element types at runtime and handle only relevant ones (loses type safety).
+
+#### Example Scenario: Document Processing
+
+A document contains elements: Paragraph, Image, Table, Heading. Operations needed:
+- Render to HTML
+- Render to PDF
+- Count words
+- Extract images
+- Generate table of contents
+
+Each operation is a visitor. The HTMLRenderer visitor converts each element to HTML. The WordCounter visitor accumulates word counts from text elements. The ImageExtractor visitor collects all images. The document structure remains unchanged as new rendering formats or analysis operations are added.
+
+#### Performance Considerations
+
+**Method Call Overhead** - Double dispatch involves two method calls per element. For performance-critical code with simple operations, this overhead might matter.
+
+**Memory Usage** - Visitors maintain state, potentially consuming memory during traversal of large structures.
+
+**Cache Friendliness** - Visitor pattern can hurt cache performance by jumping between visitor and element objects.
+
+[Unverified] In most applications, the performance overhead is negligible compared to the actual operation being performed. Profile before optimizing.
+
+#### Testing Benefits
+
+The pattern facilitates testing:
+- Test each visitor independently with mock elements
+- Test elements independently with mock visitors
+- Test specific operation logic without needing the full object structure
+- Easily create test-specific visitors for verification
+
+#### Acyclic Visitor Variant
+
+A variation that avoids circular dependencies between visitors and elements by using dynamic type checking instead of compile-time visitor interfaces. More flexible but loses compile-time type safety.
+
+[Inference] The standard Visitor pattern's compile-time safety is usually preferable unless the element hierarchy is highly dynamic or plugin-based.
+
+#### When Visitor May Not Help
+
+The pattern may not be appropriate when:
+- Element types change frequently (high maintenance cost)
+- Operations are simple and don't justify the complexity
+- Only one or two operations are needed (adding them to elements is simpler)
+- The object structure is not well-defined or highly dynamic
+- Encapsulation of element internals is critical
+
+For such cases, simpler approaches like adding methods directly to classes, using type-checking with instanceof/switch statements, or using function-based approaches may be more pragmatic.

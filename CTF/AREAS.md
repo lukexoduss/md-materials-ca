@@ -5,26 +5,28 @@
 - Binary Exploitation (Pwn) (`BE`)
 - Steganography (`S`)
 - OSINT (Open Source Intelligence)
+- Traffic Analysis (`NTA`)
+- Password Cracking (`PC`)
+- Digital Forensics and Incident Response (DFIR)
+
 - Networking (`N`)
+- Hardware Hacking (`H`)
+- Blockchain (`Bc`)
+- Log Analysis (`LA`)
+- Memory Forensics
+- Container Security (`CS`)
+
 - Programming (`P`)
 - Exploit Development
 - Malware Analysis (`Ml`)
 - Mobile Security (`Mb`)
 - Cloud Security (`Cl`)
-- Hardware Hacking (`H`)
 - RFID/NFC
 - IoT Security
-- Blockchain (`Bc`)
 - Miscellaneous (`Mi`)
 - Social Engineering
 - Incident Response (`IR`)
-- Traffic Analysis (`NTA`)
-- Log Analysis (`LA`)
-- Memory Forensics
-- Password Cracking (`PC`)
 - Wireless Security (`Wi`)
-- Container Security (`CS`)
 - ICS/SCADA
 - AI/ML Security (`AI`)
 - Threat Hunting
-- Digital Forensics and Incident Response (DFIR)

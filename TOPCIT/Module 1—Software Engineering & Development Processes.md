@@ -1,4 +1,4 @@
-# Module 1: Software Engineering & Development Processes
+# Module 1—Software Engineering & Development Processes
 
 ## Software Lifecycle Models
 
@@ -3198,7 +3198,7 @@ Requirements elicitation is the process of gathering, discovering, and understan
 
 **Stakeholder Alignment** The process helps align different stakeholder perspectives and expectations, reducing conflicts and misunderstandings later in the development cycle.
 
-**Cost Reduction** Identifying requirements early is significantly less expensive than discovering missing or incorrect requirements during later phases. [Inference] Studies suggest that fixing requirements errors after deployment can cost 100 times more than fixing them during elicitation.
+**Cost Reduction** Identifying requirements early is significantly less expensive than discovering missing or incorrect requirements during later phases. [Inference] ==Studies suggest that fixing requirements errors after deployment can cost 100 times more than fixing them during elicitation.==
 
 **Risk Mitigation** Thorough elicitation helps identify potential risks, constraints, and conflicts early in the project lifecycle.
 
@@ -3424,9 +3424,9 @@ Brainstorming is a group creativity technique where participants generate ideas 
 
 **Variations**
 
-**Brainwriting** Participants write ideas individually before sharing, reducing the influence of dominant personalities.
+**==Brainwriting==** Participants write ideas individually before sharing, reducing the influence of dominant personalities.
 
-**Reverse Brainstorming** Instead of solving a problem, participants brainstorm ways to cause the problem, then reverse these to find solutions.
+**==Reverse Brainstorming==** Instead of solving a problem, participants brainstorm ways to cause the problem, then reverse these to find solutions.
 
 **Mind Mapping** Visual brainstorming technique organizing ideas hierarchically around a central concept.
 
@@ -3535,12 +3535,12 @@ An interviewing technique that probes deeper into responses by repeatedly asking
 1. Start with a feature or attribute
 2. Ask why it matters
 3. Continue asking why for each answer
-4. Build a hierarchy of goals and values
+4. ==Build a hierarchy of goals and values==
 
 **Advantages**
 
 - Reveals deeper motivations
-- Uncovers core requirements
+- ==Uncovers core requirements==
 - Helps prioritize features based on value
 
 **Disadvantages**

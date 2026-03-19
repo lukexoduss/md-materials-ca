@@ -112,6 +112,11 @@ For an array with dimensions `l×m×n` in row-major order:
 
 `Address(A[i][j][k]) = B + ((i × m × n) + (j × n) + k) × S`
 
+1. Skip complete 2D slices: i × m × n elements (i complete m×n planes)
+2. Skip complete rows in current slice: j × n elements (j complete rows)
+3. Move to specific column: k elements within the current row
+4. Convert to bytes: Multiply total element offset by element size S
+
 #### Time Complexity Analysis
 
 ##### Access Operations
@@ -3785,10 +3790,10 @@ An adjacency matrix is a 2D array of size V × V (where V is the number of verti
 
 **Structure:**
 
-- For an unweighted graph: matrix[i][j] = 1 if there's an edge from vertex i to vertex j, otherwise 0
-- For a weighted graph: matrix[i][j] = weight of edge from vertex i to vertex j, or ∞ (or a special value) if no edge exists
-- For undirected graphs: the matrix is symmetric (matrix[i][j] = matrix[j][i])
-- For directed graphs: matrix[i][j] may differ from matrix[j][i]
+- For an unweighted graph: matrix\[i]\[j] = 1 if there's an edge from vertex i to vertex j, otherwise 0
+- For a weighted graph: matrix\[i]\[j] = weight of edge from vertex i to vertex j, or ∞ (or a special value) if no edge exists
+- For undirected graphs: the matrix is symmetric (matrix\[i]\[j] = matrix\[j]\[i])
+- For directed graphs: matrix\[i]\[j] may differ from matrix\[j]\[i]
 
 **Example:** For a graph with 4 vertices (0, 1, 2, 3) and edges: (0→1), (0→2), (1→2), (2→3), (3→0)
 

@@ -14917,6 +14917,27 @@ COMMIT;
 - Help improve locking performance in hierarchical systems
 - Types: Intent Shared (IS), Intent Exclusive (IX), Shared with Intent Exclusive (SIX)
 
+These are hierarchical locking modes used in multi-granularity locking systems, where locks can be placed at different levels (e.g., database, table, page, row).
+
+**Intent Shared (IS)**
+- Indicates intention to acquire shared locks at a finer granularity level
+- Placed at coarser levels (e.g., table) before acquiring shared locks on finer levels (e.g., rows)
+- Compatible with IS and IX locks
+- Allows concurrent reads at different granularities
+
+**Intent Exclusive (IX)**
+- Indicates intention to acquire exclusive locks at a finer granularity level
+- Placed at coarser levels before acquiring exclusive locks on finer levels
+- Compatible with IS and IX locks (but not with S or X)
+- Allows concurrent modifications to different parts of the structure
+
+**Shared with Intent Exclusive (SIX)**
+- Combination lock: shared lock at current level + intent to acquire exclusive locks at finer levels
+- Useful when scanning a table (shared) while updating specific rows (exclusive)
+- More restrictive than IX but less than X
+- Compatible only with IS locks
+
+
 **4. Update Locks**
 
 - Prevent deadlocks in read-then-update scenarios

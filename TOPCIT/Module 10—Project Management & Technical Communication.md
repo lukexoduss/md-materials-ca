@@ -2491,9 +2491,9 @@ CPM application varies across project types and industries:
 
 **Maintenance and Shutdown Projects**: Plant maintenance and facility shutdown projects use CPM to minimize downtime by optimizing activity sequences and identifying the minimum shutdown duration.
 
-## Cost & Schedule Management
-
 ---
+
+## Cost & Schedule Management
 
 ### Earned Value Management (EVM) formulas (CPI, SPI, CV, SV)
 
@@ -3034,9 +3034,15 @@ User-identifiable groups of logically related data referenced by the application
 
 Each function type is classified as Low, Average, or High complexity based on:
 
-- Number of data element types (DETs) - unique user-recognizable fields
-- Number of file types referenced (FTRs) - logical files accessed
-- Number of record element types (RETs) - user-recognizable subgroups within a file
+These are three metrics used in Function Point Analysis (FPA), a standardized method for measuring software size based on functionality from a user's perspective.
+
+**Data Element Types (DETs)** are individual fields that users can recognize and interact with. For example, in a customer registration form, each field like "First Name," "Last Name," "Email," and "Phone Number" would count as separate DETs. They represent the smallest unit of information that's meaningful to users.
+
+**File Types Referenced (FTRs)** count the logical files or data groups that a function reads from or writes to. These aren't physical files on disk, but rather logical groupings of related data. For instance, if a transaction updates both a "Customer" file and an "Order" file, it would reference 2 FTRs. This measures how many different data structures a function interacts with.
+
+**Record Element Types (RETs)** identify distinct subgroups of data within a logical file. Think of them as categories or record types within a larger data structure. For example, a "Personnel" file might contain RETs for "Full-Time Employees," "Part-Time Employees," and "Contractors." Each represents a different subgroup that users would recognize as distinct within that file.
+
+These three metrics work together in FPA to determine the complexity and size of software functions. Higher counts of DETs, FTRs, and RETs generally indicate more complex functionality, which affects the function point count and ultimately the estimated size of the software.
 
 **Step 2: Apply Complexity Weights**
 
@@ -5347,12 +5353,12 @@ The Retrospective Prime Directive contributes to psychological safety by establi
 
 A useful technique for assessing psychological safety is the ESVP (Explorer, Shopper, Vacationer, Prisoner) check, where participants anonymously indicate their mindset:
 
-|Type|Description|
-|---|---|
-|**Explorer**|Eager to discover new ideas and insights|
-|**Shopper**|Will look at information and select useful items|
-|**Vacationer**|Not interested in the work but happy to be away from daily work|
-|**Prisoner**|Would rather be elsewhere; feels forced to attend|
+| Type           | Description                                                     |
+| -------------- | --------------------------------------------------------------- |
+| **Explorer**   | Eager to discover new ideas and insights                        |
+| **Shopper**    | Will look at information and select useful items                |
+| **Vacationer** | Not interested in the work but happy to be away from daily work |
+| **Prisoner**   | Would rather be elsewhere; feels forced to attend               |
 
 If the psychological safety level is low (many Prisoners), the facilitator should consider switching the focus of the retrospective to increase safety levels before proceeding.
 

@@ -4502,7 +4502,243 @@ Where a' is the actual action taken (not necessarily the best action)
 
 Many real-world applications combine multiple learning types:
 
-#tbc Ace
+**Semi-Supervised Learning**: Uses small amount of labeled data with large amount of unlabeled data. Combines supervised and unsupervised techniques.
+
+**Use cases**: When labeling is expensive but unlabeled data is abundant (medical imaging, speech recognition)
+
+**Self-Supervised Learning**: Creates supervised learning tasks from unlabeled data by generating labels from the data itself.
+
+**Example**: Predicting next word in sentence (language modeling), predicting masked portions of images
+
+**Inverse Reinforcement Learning**: Learns reward function from demonstrations rather than having it specified.
+
+**Use case**: Learning from expert demonstrations when reward function is difficult to specify
+
+**Imitation Learning**: Combines supervised learning (learning from demonstrations) with reinforcement learning (improving through interaction).
+
+**Use case**: Robot control, autonomous driving where expert demonstrations are available
+
+**Transfer Learning**: Uses knowledge learned from one task to improve learning on a related task. Can apply across supervised, unsupervised, or reinforcement learning.
+
+**Example**: Using features learned from image classification to improve performance on medical image analysis
+
+**Active Learning**: Algorithm selectively queries for labels on most informative examples, combining aspects of supervised and unsupervised learning.
+
+**Use case**: When labeling budget is limited and want to maximize learning from labeled examples
+
+#### Evaluation Metrics and Performance Measurement
+
+**Supervised Learning Metrics**
+
+**Classification Metrics**:
+
+**Accuracy**: Proportion of correct predictions
+
+- Formula: (TP + TN) / (TP + TN + FP + FN)
+- Limitation: Misleading with imbalanced classes
+
+**Precision**: Proportion of positive predictions that are correct
+
+- Formula: TP / (TP + FP)
+- Important when false positives are costly
+
+**Recall (Sensitivity)**: Proportion of actual positives correctly identified
+
+- Formula: TP / (TP + FN)
+- Important when false negatives are costly
+
+**F1-Score**: Harmonic mean of precision and recall
+
+- Formula: 2 × (Precision × Recall) / (Precision + Recall)
+- Balances precision and recall
+
+**ROC-AUC**: Area under Receiver Operating Characteristic curve
+
+- Measures ability to distinguish between classes
+- Useful for imbalanced datasets
+
+**Confusion Matrix**: Table showing true vs. predicted classes
+
+- Provides detailed breakdown of classification performance
+- Shows which classes are confused with each other
+
+**Regression Metrics**:
+
+**Mean Squared Error (MSE)**: Average squared difference between predictions and actual values
+
+- Penalizes large errors more heavily
+- Scale-dependent
+
+**Root Mean Squared Error (RMSE)**: Square root of MSE
+
+- Same units as target variable
+- Interpretable in original scale
+
+**Mean Absolute Error (MAE)**: Average absolute difference between predictions and actual values
+
+- Less sensitive to outliers than MSE
+- Easier to interpret
+
+**R-squared (R²)**: Proportion of variance in target explained by model
+
+- Ranges from 0 to 1 (higher is better)
+- Compares to baseline of predicting mean
+
+**Unsupervised Learning Metrics**
+
+**Clustering Metrics** (Internal Validation):
+
+**Silhouette Score**: Measures how similar objects are to their own cluster compared to other clusters
+
+- Range: -1 to 1 (higher is better)
+- Can be computed without ground truth labels
+
+**Davies-Bouldin Index**: Ratio of within-cluster to between-cluster distances
+
+- Lower values indicate better clustering
+- Favors convex clusters
+
+**Calinski-Harabasz Index**: Ratio of between-cluster to within-cluster variance
+
+- Higher values indicate better-defined clusters
+
+**Inertia**: Sum of squared distances to nearest cluster center (K-means specific)
+
+- Lower is better
+- Used in elbow method
+
+**Clustering Metrics** (External Validation, when ground truth available):
+
+**Adjusted Rand Index**: Measures similarity between predicted and true clusterings
+
+- Adjusted for chance
+- Range: -1 to 1 (higher is better)
+
+**Normalized Mutual Information**: Information-theoretic measure of clustering agreement
+
+- Range: 0 to 1 (higher is better)
+
+**Dimensionality Reduction Metrics**:
+
+**Explained Variance Ratio**: Proportion of variance retained after reduction (PCA)
+
+- Indicates how much information is preserved
+
+**Reconstruction Error**: Difference between original and reconstructed data (autoencoders)
+
+- Lower indicates better preservation of information
+
+**Reinforcement Learning Metrics**:
+
+**Cumulative Reward**: Total reward accumulated over episode or time period
+
+- Primary metric for RL performance
+- Can be averaged over multiple episodes
+
+**Average Return**: Mean cumulative reward across multiple episodes
+
+- More stable than single episode reward
+- Often tracked during training
+
+**Episode Length**: Number of steps to complete episode
+
+- Shorter may indicate more efficient solutions
+- Depends on problem structure
+
+**Success Rate**: Proportion of episodes where goal is achieved
+
+- Useful for tasks with clear success criteria
+- Binary outcome metric
+
+**Sample Efficiency**: Amount of experience needed to reach performance threshold
+
+- Measured in environment interactions or episodes
+- Critical for real-world applications
+
+**Convergence Speed**: How quickly algorithm learns effective policy
+
+- Measured by reward improvement over time
+- Important for practical deployment
+
+#### Practical Considerations and Future Directions
+
+**Data Considerations**
+
+**Data Quality**: [Inference] Across all machine learning types, data quality is often more important than algorithm choice. Issues like noise, errors, bias, or non-representativeness in data can fundamentally limit performance regardless of sophisticated algorithms.
+
+**Data Volume**: Different approaches have different data requirements:
+
+- Supervised learning: Needs substantial labeled data
+- Unsupervised learning: Can work with less data but benefits from more
+- Reinforcement learning: Requires extensive interaction experience
+
+**Data Bias**: All learning types can perpetuate or amplify biases in data:
+
+- Supervised: Biased labels lead to biased predictions
+- Unsupervised: Biased data leads to biased patterns
+- Reinforcement: Biased training environment leads to biased policies
+
+**Computational Resources**
+
+**Training Costs**: Deep learning approaches in all three categories require significant computational resources:
+
+- GPU/TPU acceleration often necessary
+- Cloud computing costs can be substantial
+- Energy consumption considerations
+
+**Inference Costs**: Deployment considerations vary:
+
+- Some models require ongoing computational resources
+- Edge deployment may need model compression
+- Latency requirements affect architecture choices
+
+**Ethical Considerations**
+
+**Fairness**: Ensuring models don't discriminate against protected groups applies across all learning types.
+
+**Transparency**: Different approaches offer different levels of interpretability:
+
+- Linear models and decision trees: More interpretable
+- Deep neural networks: Often "black boxes"
+- Reinforcement learning: Behavior can be unpredictable
+
+**Privacy**: Data privacy concerns apply to all types, with particular considerations for how training data is collected, stored, and used.
+
+**Safety**: Especially critical for reinforcement learning in real-world applications where mistakes could cause harm.
+
+**Future Trends**
+
+**Few-Shot and Zero-Shot Learning**: Learning from very few examples or generalizing to unseen categories, reducing data requirements.
+
+**Meta-Learning**: "Learning to learn" - algorithms that improve their learning process over multiple tasks.
+
+**Multi-Task Learning**: Training models on multiple related tasks simultaneously to improve generalization.
+
+**Continual Learning**: Learning continuously from streams of data without forgetting previous knowledge.
+
+**Causal Learning**: Moving beyond correlations to understand causal relationships in data.
+
+**Neuro-Symbolic AI**: Combining neural networks with symbolic reasoning for better interpretability and reasoning capabilities.
+
+**AutoML**: Automated machine learning that selects algorithms, features, and hyperparameters automatically.
+
+**Federated Learning**: Training models across decentralized data sources without centralizing data, addressing privacy concerns.
+
+**Quantum Machine Learning**: [Speculation] Exploring how quantum computing might enhance machine learning algorithms, though practical applications remain largely theoretical.
+
+#### Conclusion
+
+The three main types of machine learning—supervised, unsupervised, and reinforcement learning—each address different classes of problems and operate under different paradigms.
+
+**Supervised learning** excels when clear input-output relationships exist and labeled training data is available. It provides accurate predictions for well-defined problems and benefits from mature algorithms and established best practices. However, it requires extensive labeled data and may struggle with problems where relationships are poorly defined or labels are unavailable.
+
+**Unsupervised learning** discovers hidden patterns in data without explicit labels, making it valuable for exploration, understanding data structure, and working with abundant unlabeled data. It can reveal unexpected insights but faces challenges in objective evaluation and interpretation. Success depends significantly on domain expertise to validate and apply discovered patterns.
+
+**Reinforcement learning** addresses sequential decision-making problems through interaction and feedback, learning optimal behaviors without explicit programming. It can discover novel strategies and handle complex, dynamic environments but faces challenges with sample efficiency, safety, and stability. [Inference] As computational resources and algorithms continue improving, reinforcement learning is likely to expand into more real-world applications despite current limitations.
+
+The boundaries between these categories are increasingly blurred, with hybrid approaches combining strengths of multiple paradigms. Modern applications often integrate supervised, unsupervised, and reinforcement learning techniques to address complex real-world problems that don't fit neatly into a single category.
+
+Understanding the strengths, limitations, and appropriate use cases for each type of machine learning is essential for practitioners. Success requires not only technical knowledge of algorithms but also careful consideration of data availability and quality, problem characteristics, computational resources, evaluation strategies, and ethical implications. As the field continues to evolve, these foundational concepts provide the framework for understanding both current capabilities and future developments in artificial intelligence and machine learning.
 
 ---
 
@@ -11066,10 +11302,315 @@ contract V2 {
 contract V2Unsafe {
     uint256 private c; // Changes storage layout!
     uint256 private a;
-    uint
+    uint 256 private b;
+}
+````
+
+**Contract Verification**
+
+Publishing source code on block explorers:
+
+```bash
+# Using Hardhat
+npx hardhat verify --network mainnet DEPLOYED_CONTRACT_ADDRESS "Constructor arg 1" "Constructor arg 2"
+
+# Using Truffle
+truffle run verify MyContract --network mainnet
+````
+
+**Benefits of Verification**
+
+- Users can read contract code
+- Easier interaction through block explorer UI
+- Increased trust and transparency
+- Simplified debugging
+
+**Monitoring and Maintenance**
+
+**Event Monitoring**
+
+Tracking contract activity:
+
+```javascript
+// Using Ethers.js
+const contract = new ethers.Contract(address, abi, provider);
+
+// Listen for specific event
+contract.on("Transfer", (from, to, amount, event) => {
+    console.log(`Transfer: ${from} -> ${to}: ${amount}`);
+    
+    // Trigger alerts, update database, etc.
+});
+
+// Query historical events
+const filter = contract.filters.Transfer(null, specificAddress);
+const events = await contract.queryFilter(filter, startBlock, endBlock);
 ```
 
-#tbc Ziro
+**Health Monitoring**
+
+Tracking contract metrics:
+
+- Transaction volume and patterns
+- Gas usage trends
+- Error rates
+- Balance levels
+- External dependency health
+- Oracle data freshness
+
+**Emergency Response**
+
+Handling critical issues:
+
+- **Pause mechanisms**: Temporarily disable functionality
+- **Emergency withdrawal**: Allow fund recovery
+- **Circuit breakers**: Automatic safeguards
+- **Multi-sig controls**: Require multiple approvals for critical actions
+- **Time locks**: Delay for administrative actions
+
+#### Best Practices and Recommendations
+
+Principles for developing robust smart contracts.
+
+**Design Principles**
+
+**Keep It Simple**
+
+Complexity increases risk:
+
+- Write clear, readable code
+- Avoid unnecessary complexity
+- Break complex logic into smaller functions
+- Use established patterns and libraries
+- Document non-obvious logic
+
+**Fail Securely**
+
+Handle failures gracefully:
+
+- Use require() for input validation
+- Check return values from external calls
+- Implement proper error handling
+- Provide meaningful error messages
+- Fail closed rather than open
+
+**Minimize Trust**
+
+Reduce reliance on trusted parties:
+
+- Use decentralized oracles
+- Implement multi-signature controls
+- Time-lock administrative functions
+- Make governance transparent
+- Document trust assumptions
+
+**Prepare for Failure**
+
+Assume things will go wrong:
+
+- Implement pause mechanisms
+- Create upgrade paths
+- Include emergency procedures
+- Monitor contract health
+- Plan incident response
+
+**Development Workflow**
+
+**Code Review**
+
+Multiple eyes on code:
+
+- Peer review all changes
+- Use established review checklists
+- Focus on security implications
+- Verify business logic correctness
+- Check gas optimization opportunities
+
+**Testing Strategy**
+
+Comprehensive testing approach:
+
+- Unit test all functions
+- Integration test interactions
+- Test edge cases and failures
+- Fuzz test inputs
+- Simulate attack scenarios
+- Test on testnets before mainnet
+
+**Auditing**
+
+Professional security review:
+
+- Engage reputable audit firms
+- Provide comprehensive documentation
+- Address all findings
+- Re-audit after significant changes
+- Publish audit reports
+
+**Gas Optimization**
+
+Reducing transaction costs:
+
+**Storage Optimization**
+
+```solidity
+// Expensive - multiple storage writes
+function badExample() public {
+    value1 = 10;
+    value2 = 20;
+    value3 = 30;
+}
+
+// Cheaper - batch updates
+function goodExample() public {
+    uint256 temp1 = 10;
+    uint256 temp2 = 20;
+    uint256 temp3 = 30;
+    
+    value1 = temp1;
+    value2 = temp2;
+    value3 = temp3;
+}
+
+// Even better - pack variables
+contract Packed {
+    // Pack into single slot (256 bits)
+    uint128 public value1;
+    uint128 public value2;
+}
+```
+
+**Loop Optimization**
+
+```solidity
+// Expensive - storage read in loop
+function badLoop(uint256[] memory data) public {
+    for (uint256 i = 0; i < data.length; i++) {
+        storageArray[i] = data[i]; // Expensive
+    }
+}
+
+// Better - minimize storage operations
+function goodLoop(uint256[] memory data) public {
+    uint256 length = data.length;
+    for (uint256 i = 0; i < length; i++) {
+        storageArray[i] = data[i];
+    }
+}
+```
+
+**Documentation Standards**
+
+Clear documentation practices:
+
+```solidity
+/// @title Simple Storage Contract
+/// @author Your Name
+/// @notice Stores and retrieves a single value
+/// @dev Implements basic storage functionality
+contract SimpleStorage {
+    /// @notice The stored value
+    /// @dev Private variable only accessible through getter
+    uint256 private storedData;
+    
+    /// @notice Emitted when data is stored
+    /// @param newValue The value that was stored
+    /// @param setter The address that stored the value
+    event DataStored(uint256 newValue, address indexed setter);
+    
+    /// @notice Creates a new SimpleStorage contract
+    /// @param initialValue The initial value to store
+    constructor(uint256 initialValue) {
+        storedData = initialValue;
+    }
+    
+    /// @notice Stores a new value
+    /// @dev Emits DataStored event
+    /// @param newValue The value to store
+    function set(uint256 newValue) public {
+        storedData = newValue;
+        emit DataStored(newValue, msg.sender);
+    }
+    
+    /// @notice Retrieves the stored value
+    /// @return The currently stored value
+    function get() public view returns (uint256) {
+        return storedData;
+    }
+}
+```
+
+#### Future Directions and Challenges
+
+The smart contract landscape continues to evolve.
+
+**Scalability Solutions**
+
+Addressing blockchain limitations:
+
+**Layer 2 Scaling**
+
+- Rollups (Optimistic and ZK-rollups)
+- State channels
+- Sidechains
+- Plasma chains
+
+**Benefits**
+
+- Higher transaction throughput
+- Lower gas costs
+- Maintained security through main chain
+- Improved user experience
+
+**Cross-Chain Interoperability**
+
+Enabling multi-chain functionality:
+
+- Bridge protocols
+- Cross-chain messaging
+- Wrapped assets
+- Atomic swaps
+- Universal standards
+
+**Privacy Enhancements**
+
+Protecting sensitive data:
+
+- Zero-knowledge proofs
+- Confidential transactions
+- Private smart contracts
+- Encrypted state
+
+**Formal Verification Advances**
+
+Improving security guarantees:
+
+- Better verification tools
+- Automated property checking
+- Integration with development workflows
+- Standardized specifications
+
+**Regulatory Considerations**
+
+Legal and compliance challenges:
+
+- Smart contract legal status
+- Liability and responsibility
+- Regulatory compliance (KYC/AML)
+- Consumer protection
+- Jurisdictional questions
+
+[Inference] The regulatory landscape for smart contracts remains uncertain and varies significantly by jurisdiction. Organizations deploying smart contracts should consider legal consultation to understand applicable regulations and potential liabilities.
+
+#### Conclusion and Strategic Implications
+
+Smart contracts represent a fundamental innovation in how agreements and transactions can be automated and enforced without trusted intermediaries. By encoding business logic in immutable, transparent, and automatically executing programs on blockchains, smart contracts enable entirely new models of coordination, commerce, and governance.
+
+[Inference] Organizations evaluating smart contract adoption should carefully assess whether their use cases genuinely benefit from blockchain's properties—immutability, transparency, decentralization, and trustless execution. Not all applications requiring automation are best served by smart contracts; traditional systems may be more appropriate when centralized control, flexibility, privacy, or reversibility are priorities.
+
+The technology's strengths—transparency and immutability—also present challenges. Code errors become permanent once deployed, and privacy concerns arise when sensitive business logic is publicly visible. [Inference] Successful smart contract implementation requires exceptional attention to security, comprehensive testing, professional auditing, and careful consideration of upgrade mechanisms to balance immutability with the need for evolution.
+
+As the ecosystem matures with improved development tools, established security practices, scalability solutions, and clearer regulatory frameworks, smart contracts are likely to expand beyond cryptocurrency and DeFi into supply chain management, digital identity, gaming, and other domains where transparent, automated execution provides clear value over traditional alternatives.
 
 ---
 

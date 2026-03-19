@@ -665,9 +665,13 @@ The primary advantage is deterministic destruction—objects are freed immediate
 
 ##### Mark and Sweep
 
-Mark and sweep is a tracing garbage collection algorithm that operates in two phases. During the mark phase, the collector traverses all reachable objects starting from root references (global variables, stack variables, CPU registers) and marks them as alive. During the sweep phase, the collector scans all allocated memory and frees any objects that were not marked.
+Mark and sweep is a garbage collection algorithm that identifies and removes unused memory through a two-phase process. It begins with the mark phase, where the garbage collector starts from root references—these are the known starting points in your program like global variables, local variables on the call stack, and values in CPU registers. From these roots, the collector follows every pointer or reference it can find, traversing through your program's object graph like following a map. Every object it reaches gets marked as "alive" or "in use."
 
-This approach handles circular references correctly but causes pause times during collection when the program must stop (stop-the-world pauses).
+Once the mark phase completes, the sweep phase begins. The collector examines all the memory that was allocated for objects. Any object that wasn't marked during the first phase is considered unreachable—meaning your program has no way to access it anymore—so that memory is freed and returned to the available pool. Objects that were marked are left alone and their marks are cleared for the next collection cycle.
+
+The key advantage of this algorithm is that it correctly handles circular references. If object A points to object B, and object B points back to object A, but neither is reachable from any root reference, both will remain unmarked and both will be collected. This solves a problem that simpler reference counting schemes struggle with, where circular references would prevent objects from ever being freed.
+
+The main drawback is that mark and sweep requires stop-the-world pauses. During both the mark and sweep phases, your program typically must pause execution. This happens because the collector needs a consistent view of memory—if your program kept running and modifying object references while collection was happening, the collector might mark objects incorrectly or miss some entirely. These pauses can cause noticeable delays in your program's responsiveness, especially as the heap grows larger and takes longer to traverse and sweep.
 
 ##### Generational Garbage Collection
 
@@ -720,7 +724,20 @@ void example() {
 
 ##### weak_ptr
 
-`weak_ptr` provides a non-owning reference to an object managed by `shared_ptr`. It does not contribute to the reference count and must be converted to `shared_ptr` before accessing the object. This breaks circular reference cycles that would otherwise prevent deallocation.
+A `weak_ptr` is designed to observe an object without claiming ownership of it. When you have a `shared_ptr` managing an object, creating additional `shared_ptr` copies increases the reference count, keeping the object alive. A `weak_ptr`, however, watches the object without affecting whether it gets destroyed.
+
+The critical operation with `weak_ptr` is conversion to `shared_ptr` via the `lock()` method. This attempts to create a temporary `shared_ptr` from the weak reference. If the object still exists, `lock()` succeeds and returns a valid `shared_ptr`. If the object was already destroyed, `lock()` returns an empty `shared_ptr`. You must check this before accessing the object:
+
+```cpp
+std::weak_ptr<int> weak = shared;
+if (auto locked = weak.lock()) {
+    // Object exists, use *locked
+} else {
+    // Object was destroyed
+}
+```
+
+The most important use case is breaking circular references. Consider two objects that point to each other with `shared_ptr`. Object A holds a `shared_ptr` to B, and B holds a `shared_ptr` to A. Neither can ever be destroyed because each keeps the other's reference count above zero. By making one of these pointers a `weak_ptr`, you break the cycle. 
 
 ```cpp
 #include <memory>
@@ -730,6 +747,12 @@ struct Node {
     std::weak_ptr<Node> prev;  // Weak to prevent cycle
 };
 ```
+
+In the `Node` example, each node has a strong reference to the next node but only a weak reference to the previous one. When nothing else references the chain, the nodes can be properly deallocated starting from the head.
+
+Another common pattern is caching. A cache might hold `weak_ptr` references to objects. If the objects are still in use elsewhere (kept alive by `shared_ptr`), the cache can provide access to them. If no one else needs them, they get destroyed and the cache's `weak_ptr` references become empty, which the cache can detect with `expired()` or failed `lock()` attempts.
+
+You can query a `weak_ptr` without locking it using `expired()`, which returns true if the object is gone. You can also check `use_count()` to see how many `shared_ptr` instances currently exist, though this is typically less useful than just attempting `lock()`.
 
 #### Memory Management in Specific Languages
 
@@ -793,13 +816,25 @@ For performance-critical applications, custom memory allocation strategies can s
 
 Object pools pre-allocate a collection of objects and reuse them rather than repeatedly allocating and deallocating. This eliminates allocation overhead and memory fragmentation for frequently created and destroyed objects of the same type.
 
+**Example:** A game engine might maintain a pool of 1000 particle objects. When an explosion effect needs 200 particles, it checks out 200 objects from the pool, uses them for the effect, then returns them to the pool when done—rather than allocating and freeing 200 objects every time an explosion occurs.
+
+**Illustration:** Think of a rental car company. Instead of manufacturing a new car every time someone needs one and scrapping it when they're done, the company maintains a fleet (pool) that customers borrow from and return to. This is far more efficient than constant creation and destruction.
+
 ##### Arena Allocators
 
 Arena allocators (also called region-based allocation) allocate memory from a large pre-allocated block. Individual allocations cannot be freed; instead, the entire arena is freed at once. This is efficient when object lifetimes are grouped together, such as per-request processing in a server.
 
+**Example:** A web server handling an HTTP request might use an arena allocator for that request. As it parses headers, constructs response objects, and formats JSON, all allocations come from the arena. When the request completes, the entire arena is freed in one operation—no need to track and free dozens of individual allocations.
+
+**Illustration:** Imagine using a whiteboard for a brainstorming session. You write notes, draw diagrams, and add sticky notes throughout the meeting. Rather than erasing each individual item as you finish with it, you simply wipe the entire board clean when the session ends. This is much faster than individual cleanup.
+
 ##### Slab Allocators
 
 Slab allocators maintain pools of fixed-size memory blocks. Objects of similar sizes are allocated from the same slab, reducing fragmentation and improving cache locality. The Linux kernel uses slab allocation extensively.
+
+**Example:** The Linux kernel maintains separate slabs for commonly used structures like `task_struct` (process descriptor, ~9KB), `mm_struct` (memory descriptor, ~1KB), and `inode` (filesystem metadata, ~600 bytes). When the kernel needs to create a new process, it allocates a `task_struct` from the dedicated slab rather than using the general-purpose allocator.
+
+**Illustration:** Consider a restaurant kitchen with dedicated stations—one for salads, one for grilling, one for desserts. Each station is optimized for its specific task with the right tools and ingredients pre-positioned. This is more efficient than having one general-purpose station where cooks constantly swap out equipment. Similarly, slab allocators have specialized "stations" (slabs) for different object sizes, with memory blocks pre-sized and ready to use.
 
 #### Best Practices for Memory Management
 
@@ -819,6 +854,93 @@ cause significant memory pressure.
 ---
 
 ### Exception Handling
+
+**Memory & Resource Exceptions**
+- **OutOfMemoryError/MemoryError** - Insufficient memory available
+- **StackOverflowError** - Call stack size exceeded
+- **ResourceExhausted** - System resources depleted
+
+**Arithmetic Exceptions**
+- **DivideByZeroError/ZeroDivisionError** - Division by zero attempted
+- **ArithmeticException** - General arithmetic errors
+- **OverflowError** - Numeric operation result too large
+- **FloatingPointError** - Invalid floating point operation
+
+**Type & Value Exceptions**
+- **TypeError** - Operation on incompatible type
+- **ValueError** - Correct type, invalid value
+- **CastException/ClassCastException** - Invalid type conversion
+- **NumberFormatException** - String to number conversion failed
+
+**Null/Reference Exceptions**
+- **NullPointerException/NullReferenceException** - Accessing null object
+- **AttributeError** - Attribute doesn't exist
+- **UnboundLocalError** - Local variable referenced before assignment
+
+**Index & Key Exceptions**
+- **IndexOutOfBoundsException/IndexError** - Invalid array/list index
+- **KeyError** - Dictionary key not found
+- **KeyNotFoundException** - Map/dictionary key missing
+
+**I/O Exceptions**
+- **IOException** - Input/output operation failed
+- **FileNotFoundException** - File doesn't exist
+- **EOFError** - End of file reached unexpectedly
+- **PermissionError** - Insufficient file permissions
+
+**Network Exceptions**
+- **SocketException** - Socket operation failed
+- **TimeoutException** - Operation timed out
+- **ConnectionError** - Network connection failed
+- **UnknownHostException** - Hostname resolution failed
+
+**Concurrency Exceptions**
+- **DeadlockException** - Thread deadlock detected
+- **InterruptedException** - Thread interrupted
+- **ConcurrentModificationException** - Collection modified during iteration
+- **ThreadAbortException** - Thread forcibly terminated
+
+**Security Exceptions**
+- **SecurityException** - Security violation
+- **AccessViolationException** - Invalid memory access
+- **UnauthorizedAccessException** - Permission denied
+
+**State Exceptions**
+- **IllegalStateException/InvalidOperationException** - Operation called at wrong time
+- **IllegalArgumentException/ArgumentException** - Invalid argument passed
+- **NotImplementedException/NotImplementedError** - Feature not implemented
+- **UnsupportedOperationException** - Operation not supported
+
+**Parsing & Format Exceptions**
+- **ParseException** - Parsing failed
+- **FormatException** - Invalid format
+- **SyntaxError** - Code syntax error
+- **JSONDecodeError** - JSON parsing failed
+
+**System Exceptions**
+- **SystemException** - General system error
+- **PlatformNotSupportedException** - Platform doesn't support feature
+- **NotSupportedException** - Feature not supported
+- **EnvironmentException** - Environment configuration issue
+
+**Language-Specific**
+- **StopIteration** (Python) - Iterator exhausted
+- **KeyboardInterrupt** (Python) - User interrupted execution
+- **AssertionError** - Assertion failed
+- **ReferenceError** (JavaScript) - Invalid reference
+- **RangeError** (JavaScript) - Value not in allowed range
+
+**Database Exceptions**
+- **SQLException** - Database operation failed
+- **ConstraintViolationException** - Database constraint violated
+- **TransactionException** - Transaction operation failed
+
+**Custom/Application**
+- **ApplicationException** - Base for application-specific errors
+- **BusinessLogicException** - Business rule violation
+- **ValidationException** - Data validation failed
+
+**Note**: Exact names and availability vary by programming language and framework. This list covers common exceptions across Java, C#, Python, JavaScript, C++, and other major languages.
 
 #### What is Exception Handling?
 
@@ -888,7 +1010,38 @@ In most programming languages, exceptions follow a hierarchical structure. Under
 
 **Try-With-Resources Pattern**: A pattern that automatically manages resources that implement an auto-closeable interface, ensuring they are properly closed even if exceptions occur.
 
-**Exception Translation**: Converting low-level exceptions into higher-level, more meaningful exceptions that better represent the application layer where they're caught.
+**Exception Translation** is the practice of catching a low-level exception (like a database connection error) and re-throwing it as a higher-level exception (like a `UserNotFoundException`) that makes more sense in your application's context.
+
+```java
+// Low-level code throws SQLException
+public User findUser(int id) {
+    try {
+        // Database query that might fail
+        return database.query("SELECT * FROM users WHERE id = ?", id);
+    } catch (SQLException e) {
+        // Translate to application-level exception
+        throw new UserNotFoundException("User " + id + " not found", e);
+    }
+}
+```
+
+Why do this?
+- The calling code doesn't need to know about database details
+- The exception name (`UserNotFoundException`) clearly describes the business problem
+- You preserve the original error as the "cause" for debugging
+
+Without translation:
+```java
+❌ caller sees: SQLException: Column 'id' not found in table
+```
+
+With translation:
+```java
+✅ caller sees: UserNotFoundException: User 42 not found
+   (caused by: SQLException...)
+```
+
+The higher layers of your application work with concepts like "Users" and "Orders," not "SQL connections" and "database rows"—exception translation maintains that abstraction.
 
 **Exception Chaining**: Wrapping one exception inside another to preserve the original cause while adding context at different layers of the application.
 
@@ -1625,11 +1778,43 @@ The inverse of Hide Delegate. When a class has too many delegating methods, let 
 
 ##### Introduce Foreign Method
 
-When you need a method on a class you cannot modify, create a method in the client class with the server instance as the first argument.
+You need a method on a class you can't change, so add it to your client class and pass the server object as a parameter.
+
+```python
+# Need: nextDay() on Date, but can't modify Date
+class Schedule:
+    def next_business_day(self, date):
+        # Foreign method for Date
+        next_day = date + timedelta(days=1)
+        while next_day.weekday() >= 5:  # Skip weekends
+            next_day += timedelta(days=1)
+        return next_day
+```
 
 ##### Introduce Local Extension
 
-When you need several additional methods for a class you cannot modify, create a subclass or wrapper containing the new methods.
+You need multiple methods for a class you can't change, so create a subclass or wrapper with all the new methods.
+
+```python
+# Option 1: Subclass
+class ExtendedDate(Date):
+    def next_day(self):
+        return self + timedelta(days=1)
+    
+    def add_business_days(self, days):
+        # ... implementation
+
+# Option 2: Wrapper
+class DateWrapper:
+    def __init__(self, date):
+        self._date = date
+    
+    def next_day(self):
+        return self._date + timedelta(days=1)
+    
+    def add_business_days(self, days):
+        # ... implementation
+```
 
 ---
 
@@ -1779,9 +1964,51 @@ def _is_not_eligible_for_disability(self):
 
 When the same code appears in all branches of a conditional, move it outside.
 
+```javascript
+// Before
+if (isSpecialUser) {
+  performAction();
+  log('Action completed');
+} else {
+  performDefaultAction();
+  log('Action completed');
+}
+
+// After
+if (isSpecialUser) {
+  performAction();
+} else {
+  performDefaultAction();
+}
+log('Action completed');
+```
+
+---
+
 ##### Remove Control Flag
 
 Replace control flags with break, continue, return, or extraction into a separate method.
+
+```javascript
+// Before
+let found = false;
+for (let i = 0; i < items.length; i++) {
+  if (!found) {
+    if (items[i] === target) {
+      found = true;
+      result = items[i];
+    }
+  }
+}
+
+// After
+for (let i = 0; i < items.length; i++) {
+  if (items[i] === target) {
+    result = items[i];
+    break;
+  }
+}
+```
 
 ##### Replace Nested Conditional with Guard Clauses
 
@@ -1819,34 +2046,99 @@ When you have a conditional that chooses different behavior based on type, move 
 
 ```python
 # Before
-def get_speed(self):
-    if self.type == "EUROPEAN":
-        return self._base_speed()
-    elif self.type == "AFRICAN":
-        return self._base_speed() - self._load_factor() * self.number_of_coconuts
-    elif self.type == "NORWEGIAN_BLUE":
-        if self.is_nailed:
-            return 0
-        return self._base_speed() - self.voltage
+class Bird:
+    def __init__(self, bird_type, number_of_coconuts=0, voltage=0, is_nailed=False):
+        self.type = bird_type
+        self.number_of_coconuts = number_of_coconuts
+        self.voltage = voltage
+        self.is_nailed = is_nailed
+    
+    def get_speed(self):
+        if self.type == "EUROPEAN":
+            return self._base_speed()
+        elif self.type == "AFRICAN":
+            return self._base_speed() - self._load_factor() * self.number_of_coconuts
+        elif self.type == "NORWEGIAN_BLUE":
+            if self.is_nailed:
+                return 0
+            return self._base_speed() - self.voltage
+    
+    def get_plumage(self):
+        if self.type == "EUROPEAN":
+            return "average"
+        elif self.type == "AFRICAN":
+            return "tired" if self.number_of_coconuts > 2 else "average"
+        elif self.type == "NORWEGIAN_BLUE":
+            return "scorched" if self.voltage > 100 else "beautiful"
+    
+    def _base_speed(self):
+        return 10
+    
+    def _load_factor(self):
+        return 0.5
+
 
 # After: Use inheritance
 class Bird:
     def get_speed(self):
         return self._base_speed()
+    
+    def get_plumage(self):
+        return "average"
+    
+    def _base_speed(self):
+        return 10
+    
+    def _load_factor(self):
+        return 0.5
+
 
 class European(Bird):
     pass
 
+
 class African(Bird):
+    def __init__(self, number_of_coconuts=0):
+        self.number_of_coconuts = number_of_coconuts
+    
     def get_speed(self):
         return self._base_speed() - self._load_factor() * self.number_of_coconuts
+    
+    def get_plumage(self):
+        return "tired" if self.number_of_coconuts > 2 else "average"
+
 
 class NorwegianBlue(Bird):
+    def __init__(self, voltage=0, is_nailed=False):
+        self.voltage = voltage
+        self.is_nailed = is_nailed
+    
     def get_speed(self):
         if self.is_nailed:
             return 0
         return self._base_speed() - self.voltage
+    
+    def get_plumage(self):
+        return "scorched" if self.voltage > 100 else "beautiful"
+
+
+# Usage
+european = European()
+african = African(number_of_coconuts=3)
+norwegian = NorwegianBlue(voltage=150, is_nailed=False)
+
+print(european.get_speed())      # 10
+print(african.get_speed())       # 8.5
+print(norwegian.get_speed())     # -140
 ```
+
+Polymorphism eliminates repetitive type-checking conditionals by distributing type-specific behavior to the classes that know how to handle it. Each class becomes responsible for its own variant behavior, making the logic easier to understand and maintain.
+
+Adding new types becomes simpler because you create a new subclass rather than modifying existing conditional logic. This reduces the risk of breaking existing behavior and makes the system more extensible.
+
+The code becomes more organized as related behavior stays together in each class. When you need to understand how African birds work, all the relevant logic lives in one place rather than scattered across multiple conditional statements.
+
+Type-specific data also moves to where it belongs. African birds own their coconut count, Norwegian Blues own their voltage and nailed status, rather than having a single class carry irrelevant fields for all possible types.
 
 ##### Introduce Null Object
 
@@ -1867,6 +2159,12 @@ class NullCustomer(Customer):
 # Usage: customer is never None; it may be NullCustomer
 plan = customer.get_plan()
 ```
+
+Replacing null checks with null objects reduces conditional logic throughout your codebase. Instead of repeatedly checking if a reference is null before using it, you provide an object that implements the expected interface but performs neutral or default operations. This makes code more readable, reduces the chance of null reference errors, and follows the principle that objects should be responsible for their own behavior.
+
+The pattern works by creating a special case object that responds to the same interface as real objects but does nothing harmful when its methods are called. For example, instead of checking if a customer exists before getting their name, you'd have a NullCustomer that returns a default name like "Unknown Customer". Code that uses customers doesn't need to know whether it's working with a real customer or the null version.
+
+This approach is particularly valuable when null values are common in your domain and you find yourself writing the same defensive checks repeatedly. It's less useful when null actually carries semantic meaning that needs different handling in different contexts, or when the default behavior isn't obvious or safe.
 
 ##### Introduce Assertion
 
@@ -1904,9 +2202,84 @@ Subclasses have methods with similar steps in the same order but different imple
 
 A subclass uses only part of a superclass interface or does not want to inherit data. Create a field for the superclass, adjust methods to delegate, and remove the inheritance.
 
+```java
+// Before: Inheritance
+class Stack extends ArrayList {
+    public void push(Object value) {
+        add(value);
+    }
+    
+    public Object pop() {
+        return remove(size() - 1);
+    }
+}
+
+// After: Delegation
+class Stack {
+    private ArrayList items = new ArrayList();
+    
+    public void push(Object value) {
+        items.add(value);
+    }
+    
+    public Object pop() {
+        return items.remove(items.size() - 1);
+    }
+    
+    public int size() {
+        return items.size();
+    }
+}
+```
+
+Why? The `Stack` doesn't need all of `ArrayList`'s methods (like `add(index, value)` or `clear()`), which could break stack behavior. Delegation exposes only what's needed while maintaining control over the interface.
+
 ##### Replace Delegation with Inheritance
 
 When you use all of a delegate's methods and delegation becomes tedious, inherit from the delegate instead (but be cautious of tight coupling).
+
+```java
+// Before: Delegation
+class Employee {
+    private Person person = new Person();
+    
+    public String getName() {
+        return person.getName();
+    }
+    
+    public void setName(String name) {
+        person.setName(name);
+    }
+    
+    public String getAddress() {
+        return person.getAddress();
+    }
+    
+    public void setAddress(String address) {
+        person.setAddress(address);
+    }
+    
+    public int getAge() {
+        return person.getAge();
+    }
+    
+    // ... many more delegating methods
+}
+
+// After: Inheritance
+class Employee extends Person {
+    // All Person methods are now directly available
+    // Add only Employee-specific behavior
+    
+    private String employeeId;
+    
+    public String getEmployeeId() {
+        return employeeId;
+    }
+}
+```
+
+Why? When you're delegating every method and adding no additional logic, inheritance reduces boilerplate. However, this creates tight coupling, so only use it when `Employee` truly "is-a" `Person` and you need the full interface.
 
 ---
 
